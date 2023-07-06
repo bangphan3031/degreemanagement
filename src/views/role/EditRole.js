@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { editRole } from 'services/roleService';
 import { showAlert, setOpenPopup, updatedRole } from 'store/actions';
 import { selectedRoleSelector } from 'store/selectors';
+import AnimateButton from 'components/extended/AnimateButton';
 
 const EditRole = () => {
 
@@ -59,12 +60,22 @@ const EditRole = () => {
               <div style={{ color: 'red' }}>{formik.errors.name}</div>
             )}
           </FormControl>
-          <Button type="submit" variant="contained" color="primary" sx={{marginRight: '10px', my: 2}}>
-            Lưu
-          </Button>
-          <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
-            Làm mới
-          </Button>
+          <Grid container spacing={1} direction="row" my={2}>
+            <Grid item>
+              <AnimateButton>
+                <Button type="submit" variant="contained" color="primary">
+                  Lưu
+                </Button>
+              </AnimateButton>
+            </Grid>
+            <Grid item>
+              <AnimateButton>
+                <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
+                  Làm mới
+                </Button>
+              </AnimateButton>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </form>

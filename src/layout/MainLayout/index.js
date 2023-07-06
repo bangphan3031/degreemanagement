@@ -9,7 +9,8 @@ import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material'
 import Breadcrumbs from 'components/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import Customization from '../Customization';
+// import Footer from 'components/cards/AuthFooter'
+// import Customization from '../Customization';
 import navigation from 'menu-items';
 import { drawerWidth } from 'store/constant';
 import { SET_MENU } from 'store/actions';
@@ -51,6 +52,16 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
   }
 }));
 
+const Footer = styled('footer')(({ theme }) => ({
+  position: 'fixed',
+  bottom: 0,
+  left: 0,
+  right: 0,
+  backgroundColor: theme.palette.primary.light,
+  color: theme.palette.text.secondary,
+  textAlign: 'center',
+}));
+
 // ==============================|| MAIN LAYOUT ||============================== //
 
 const MainLayout = () => {
@@ -90,8 +101,14 @@ const MainLayout = () => {
         {/* breadcrumb */}
         <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
         <Outlet />
+        <Footer sx={{marginRight: '40px'}}>
+          <footer style={{ display: 'flex', justifyContent: 'space-between', height: '30px'}}>
+            <span>&copy; berrydashboard.io</span>
+            <a href='https://khanhhoa.vnpt.vn/' target='_blank' rel='noopener noreferrer' style={{marginTop: '5px', textDecoration: 'none'}}>&copy; khanhhoa.vnpt.vn</a>
+          </footer>
+        </Footer>
       </Main>
-      <Customization />
+      {/* <Customization /> */}
     </Box>
   );
 };

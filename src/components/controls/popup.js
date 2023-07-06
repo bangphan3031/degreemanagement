@@ -33,7 +33,7 @@ export default function Popup(props) {
             {title}
           </MuiTypography>
           <AnimateButton>
-            <Button variant="contained" color="error" size="small" onClick={handleCloseClick}>
+            <Button variant="contained" color="inherit" size="small" onClick={handleCloseClick}>
               <IconX />
             </Button>
           </AnimateButton>

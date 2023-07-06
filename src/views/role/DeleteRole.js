@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconAlertCircle } from '@tabler/icons';
 import { deleteRole } from 'services/roleService';
 import { setOpenPopup, deletedRole, showAlert } from 'store/actions';
 import { selectedRoleSelector } from 'store/selectors';
+import AnimateButton from 'components/extended/AnimateButton';
 
 const DeleteRole = () => {
 
@@ -35,12 +36,22 @@ const DeleteRole = () => {
             <strong>Bạn chắc chứ?</strong>
         </p>
         <p>Bạn sẽ không thể khôi phục!</p>
-        <Button onClick={handleCancelClick} variant="outlined" sx={{marginRight: '20px'}}>
-            Hủy
-        </Button>
-        <Button onClick={handleDeleteClick} variant="contained" color="error">
-            Xóa
-        </Button>
+        <Grid container spacing={1} direction="row" justifyContent="center" my={2}>
+          <Grid item>
+            <AnimateButton>
+              <Button onClick={handleCancelClick} variant="outlined" sx={{marginRight: '20px'}}>
+                Hủy
+              </Button>
+            </AnimateButton>
+          </Grid>
+          <Grid item>
+            <AnimateButton>
+              <Button onClick={handleDeleteClick} variant="contained" color="error">
+                Xóa
+              </Button>
+            </AnimateButton>
+          </Grid>
+        </Grid>
     </div>
   );
 };
