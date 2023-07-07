@@ -26,8 +26,8 @@ const EditRole = () => {
           ...values,
           roleId: selectedRole.roleId
         });
-        console.log('Role updated:', roleUpdated);
-        dispatch(updatedRole(roleUpdated.data));
+        const modifiedData = { ...roleUpdated.data, rowIndex: selectedRole.rowIndex };
+        dispatch(updatedRole(modifiedData));
         dispatch(showAlert(new Date().getTime().toString(), 'success', roleUpdated.message.toString()));
       } catch (error) {
         console.error('Error updating role:', error);

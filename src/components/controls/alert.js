@@ -1,7 +1,7 @@
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { alertContentSelector, alertIdSelector, alertTypeSelector, showAlertSelector } from 'store/selectors';
 
 export default function Alert() {
@@ -9,9 +9,7 @@ export default function Alert() {
   const alertId = useSelector(alertIdSelector);
   const alertType = useSelector(alertTypeSelector);
   const alertContent = useSelector(alertContentSelector);
-  const prevAlertIdRef = useRef(null); // Initialize prevAlertIdRef with null
-
-  const dispatch = useDispatch();
+  const prevAlertIdRef = useRef(null);
 
   useEffect(() => {
     if (showAlert) {
@@ -31,7 +29,7 @@ export default function Alert() {
       prevAlertIdRef.current = alertId;
 
     }
-  }, [showAlert, alertId, alertType, alertContent, dispatch]);
+  }, [showAlert, alertId, alertType, alertContent]);
 
   return (
     <div>

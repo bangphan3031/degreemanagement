@@ -9,7 +9,7 @@ import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material'
 import Breadcrumbs from 'components/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
-// import Footer from 'components/cards/AuthFooter'
+import Footer from './Footer'; // Import component footer tách riêng
 // import Customization from '../Customization';
 import navigation from 'menu-items';
 import { drawerWidth } from 'store/constant';
@@ -17,6 +17,9 @@ import { SET_MENU } from 'store/actions';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
+//
+import { showAlertSelector } from 'store/selectors';
+import Alert from 'components/controls/alert';
 
 // styles
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
@@ -52,24 +55,14 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
   }
 }));
 
-const Footer = styled('footer')(({ theme }) => ({
-  position: 'fixed',
-  bottom: 0,
-  left: 0,
-  right: 0,
-  backgroundColor: theme.palette.primary.light,
-  color: theme.palette.text.secondary,
-  textAlign: 'center',
-}));
-
 // ==============================|| MAIN LAYOUT ||============================== //
 
 const MainLayout = () => {
   const theme = useTheme();
   const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
-  // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
+  const showAlert = useSelector(showAlertSelector);
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
@@ -77,7 +70,6 @@ const MainLayout = () => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      {/* header */}
       <AppBar
         enableColorOnDark
         position="fixed"
@@ -92,23 +84,13 @@ const MainLayout = () => {
           <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
         </Toolbar>
       </AppBar>
-
-      {/* drawer */}
       <Sidebar drawerOpen={!matchDownMd ? leftDrawerOpened : !leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
-
-      {/* main content */}
       <Main theme={theme} open={leftDrawerOpened}>
-        {/* breadcrumb */}
         <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
         <Outlet />
-        <Footer sx={{marginRight: '40px'}}>
-          <footer style={{ display: 'flex', justifyContent: 'space-between', height: '30px'}}>
-            <span>&copy; berrydashboard.io</span>
-            <a href='https://khanhhoa.vnpt.vn/' target='_blank' rel='noopener noreferrer' style={{marginTop: '5px', textDecoration: 'none'}}>&copy; khanhhoa.vnpt.vn</a>
-          </footer>
-        </Footer>
+        <Footer />
       </Main>
-      {/* <Customization /> */}
+      {showAlert && <Alert />}
     </Box>
   );
 };

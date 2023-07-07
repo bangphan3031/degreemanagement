@@ -13,8 +13,7 @@ import Edit from './TestEdit';
 import Delete from './TestDelete';
 import AnimateButton from 'components/extended/AnimateButton';
 import { setUsers, setOpenPopup, selectedUser } from '../../store/actions';
-import { openPopupSelector, showAlertSelector, usersSelector } from 'store/selectors';
-import Alert from 'components/controls/alert';
+import { openPopupSelector, usersSelector } from 'store/selectors';
 
 const TestAPI = () => {
   const [userData, setUserData] = useState(null);
@@ -26,7 +25,6 @@ const TestAPI = () => {
   const dispatch = useDispatch();
   const userList = useSelector(usersSelector);
   const openPopup = useSelector(openPopupSelector);
-  const showAlert = useSelector(showAlertSelector);
 
   useEffect(() => {
     getUsers().then((data) => {
@@ -161,7 +159,6 @@ const TestAPI = () => {
       <Popup title={title} openPopup={openPopup}>
         {form === 'add' ? <Add /> : form === 'edit' ? <Edit /> : <Delete />}
       </Popup>
-      {showAlert && <Alert />}
     </>
   );
 };

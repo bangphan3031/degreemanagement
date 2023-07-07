@@ -14,8 +14,7 @@ import Edit from '../role/EditRole';
 import Delete from '../role/DeleteRole';
 import AnimateButton from 'components/extended/AnimateButton';
 import { setOpenPopup, selectedRole, setRoles } from '../../store/actions';
-import { openPopupSelector, rolesSelector, showAlertSelector } from 'store/selectors';
-import Alert from 'components/controls/alert';
+import { openPopupSelector, rolesSelector } from 'store/selectors';
 import CustomButton from 'components/button/CustomButton';
 
 const RoleIndex = () => {
@@ -23,7 +22,6 @@ const RoleIndex = () => {
   const dispatch = useDispatch();
   const roles = useSelector(rolesSelector);
   const openPopup = useSelector(openPopupSelector);
-  const showAlert = useSelector(showAlertSelector);
   const [title, setTitle] = useState('');
   const [form, setForm] = useState('');
 
@@ -62,7 +60,7 @@ const RoleIndex = () => {
     {
       field: 'name',
       headerName: 'Tên nhóm quyền',
-      width: 820
+      width: 900
     },
     {
       field: 'actions',
@@ -109,11 +107,10 @@ const RoleIndex = () => {
 
   const rows = roles.map((role) => ({
     id: role.roleId,
+    roleId: role.roleId,
     rowIndex: role.rowIndex,
     name: role.name,
   }));
-
-  console.log(rows)
 
   const CustomPagination = () => {
     return (
@@ -171,7 +168,6 @@ const RoleIndex = () => {
       <Popup title={title} openPopup={openPopup}>
         {form === 'add' ? <Add /> : form === 'edit' ? <Edit /> : <Delete />}
       </Popup>
-      {showAlert && <Alert />}
     </>
   );
 };
