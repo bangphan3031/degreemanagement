@@ -139,10 +139,10 @@ const FirebaseLogin = ({ ...others }) => {
           try {
             const loggedInUser = await login(values);
             console.log(loggedInUser)
-            if (loggedInUser.data.token) {
-              localStorage.setItem('token', loggedInUser.data.token);
-              localStorage.setItem('user', loggedInUser.data.username);
-              dispatch(showAlert(new Date().getTime().toString(), 'success', 'Loggin success with '+loggedInUser.data.username));
+            if (loggedInUser.data.user.token) {
+              localStorage.setItem('token', loggedInUser.data.user.token);
+              localStorage.setItem('user', loggedInUser.data.user.username);
+              dispatch(showAlert(new Date().getTime().toString(), 'success', loggedInUser.message.toString()));
             }
             else {
               dispatch(showAlert(new Date().getTime().toString(), 'error', loggedInUser.message.toString()));

@@ -16,6 +16,7 @@ export const SELECTED_USER = '@customization/SELECTED_USER';
 export const SELECTED_ROLE = '@customization/SELECTED_ROLE';
 export const POPUP_OPEN = '@customization/POPUP_OPEN';
 export const SHOW_ALERT = '@customization/SHOW_ALERT';
+export const RELOAD_DATA = '@customization/RELOAD_DATA';
 // actions.js
 export const setUsers = (data) => ({ type: SET_USERS, users: data });
 export const setRoles = (data) => ({ type: SET_ROLES, roles: data });
@@ -28,6 +29,7 @@ export const deletedRole = (roleId) => ({ type: DELETE_ROLE, roleId: roleId });
 export const selectedUser = (user) => ({ type: SELECTED_USER, selectedUser: user });
 export const selectedRole = (role) => ({ type: SELECTED_ROLE, selectedRole: role });
 export const setOpenPopup = (status) => ({ type: POPUP_OPEN, openPopup: status });
+export const setReloadData = (status) => ({ type: RELOAD_DATA, reloadData: status });
 export const showAlert = (alertId, alertType, alertContent) => ({
     type: SHOW_ALERT,
     payload: { alertId, alertType, alertContent },

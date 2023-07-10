@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogContentText, DialogTitle, Slide, Button } from '@mui/material';
+import { Dialog, DialogContent, DialogContentText, DialogTitle, Slide, IconButton } from '@mui/material';
 import { forwardRef } from 'react';
 import MuiTypography from '@mui/material/Typography';
 import { IconX } from '@tabler/icons';
@@ -33,9 +33,9 @@ export default function Popup(props) {
             {title}
           </MuiTypography>
           <AnimateButton>
-            <Button variant="contained" color="inherit" size="small" onClick={handleCloseClick}>
-              <IconX />
-            </Button>
+            <IconButton size='small' style={{ color: 'white' }} onClick={handleCloseClick}>
+              <IconX fontSize="large" />
+            </IconButton>
           </AnimateButton>
         </DialogTitle>
         <DialogContent>

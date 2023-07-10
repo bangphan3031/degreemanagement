@@ -3,7 +3,7 @@ import { Button, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconAlertCircle } from '@tabler/icons';
 import { deleteRole } from 'services/roleService';
-import { setOpenPopup, deletedRole, showAlert } from 'store/actions';
+import { setOpenPopup, setReloadData, showAlert } from 'store/actions';
 import { selectedRoleSelector } from 'store/selectors';
 import AnimateButton from 'components/extended/AnimateButton';
 
@@ -20,9 +20,12 @@ const DeleteRole = () => {
     try {
         dispatch(setOpenPopup(false));
         const roleDeleted = await deleteRole(selectedRole.roleId);
-        console.log('Role deleted:', roleDeleted);
-        dispatch(deletedRole(selectedRole.roleId));
-        dispatch(showAlert(new Date().getTime().toString(), 'success', roleDeleted.message));
+        if(roleDeleted.isSuccess == false){
+          dispatch(showAlert(new Date().getTime().toString(), 'error', roleDeleted.message.toString()));
+        } else {
+          dispatch(setReloadData(true));
+          dispatch(showAlert(new Date().getTime().toString(), 'success', roleDeleted.message.toString()));
+        }
       } catch (error) {
         console.error('Error updating role:', error);
         dispatch(showAlert(new Date().getTime().toString(), 'error', error.toString()));

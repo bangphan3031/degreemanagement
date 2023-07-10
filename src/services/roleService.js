@@ -6,16 +6,21 @@ const user = localStorage.getItem('user');
 const token = localStorage.getItem('token');
 const md5 = require('md5');
 
-export async function getRoles() {
+export async function getRoles(params) {
   try {
-    const response = await fetch(`${apiUrl}/Role/GetAllByParams`);
-
+    const response = await fetch(`${apiUrl}/Role/GetAllByParams?${params}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Token': user && token ? `${user}.${token}.${md5(token + secretKey)}` : null,
+        'Accept-Language': 'vi-VN'
+      },
+    });
     if (!response.ok) {
       throw new Error('Error retrieving users');
     }
 
     const data = await response.json();
-    return data;
+    return data.data;
   } catch (error) {
     console.error('Error retrieving users:', error);
     throw error;
@@ -29,13 +34,14 @@ export async function createRole(data) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Token': user && token ? `${user}.${token}.${md5(token + body + secretKey)}` : null
+      'Token': user && token ? `${user}.${token}.${md5(token + body + secretKey)}` : null,
+      'Accept-Language': 'vi-VN'
     },
     body: body
     });
 
-    if (!response.ok) {
-    throw new Error('Error adding role');
+    if (response.isSuccess == false) {
+      const response = await response.message;
     }
 
     const addedRole = await response.json();
@@ -53,13 +59,14 @@ export async function editRole(data) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Token': user && token ? `${user}.${token}.${md5(token + body + secretKey)}` : null
+        'Token': user && token ? `${user}.${token}.${md5(token + body + secretKey)}` : null,
+        'Accept-Language': 'vi-VN'
       },
       body: body
     });
 
-    if (!response.ok) {
-      throw new Error('Error updating role');
+    if (response.isSuccess == false) {
+      const response = await response.message;
     }
 
     const updatedRole = await response.json();
@@ -76,13 +83,15 @@ export async function deleteRole(roleId) {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'Token': user && token ? `${user}.${token}.${md5(token + secretKey)}` : null
+        'Token': user && token ? `${user}.${token}.${md5(token + secretKey)}` : null,
+        'Accept-Language': 'vi-VN'
       },
     });
 
-    if (!response.ok) {
-      throw new Error('Error deleting role');
+    if (response.isSuccess == false) {
+      const response = await response.message;
     }
+    
     const deletedRole = await response.json();
     return deletedRole;
     } catch (error) {
@@ -96,7 +105,8 @@ export async function login(data) {
     const response = await fetch(`${apiUrl}/Auth/login`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept-Language': 'vi-VN'
       },
       body: JSON.stringify(data)
     });

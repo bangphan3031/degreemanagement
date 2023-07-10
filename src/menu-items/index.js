@@ -1,6 +1,6 @@
 import dashboard from './dashboard';
 import test from './test';
-// import pages from './pages';
+import pages from './pages';
 // import utilities from './utilities';
 // import other from './other';
 
@@ -8,7 +8,7 @@ import test from './test';
 
 const menuItems = {
   // items: [dashboard, test, pages, utilities, other]
-  items: [ dashboard, test ]
+  items: [ dashboard, test, pages ]
 };
 
 export default menuItems;

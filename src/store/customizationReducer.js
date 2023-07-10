@@ -18,7 +18,8 @@ export const initialState = {
   showAlert: false,
   alertId: null,
   alertType: '',
-  alertContent: ''
+  alertContent: '',
+  reloadData: false
 };
 
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //
@@ -115,6 +116,11 @@ const customizationReducer = (state = initialState, action) => {
       return {
         ...state,
         openPopup: action.openPopup
+      };
+    case actionTypes.RELOAD_DATA:
+      return {
+        ...state,
+        reloadData: action.reloadData
       };
     case actionTypes.SHOW_ALERT:
       return {

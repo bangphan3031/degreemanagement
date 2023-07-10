@@ -1,160 +1,167 @@
-import React, { useState, useEffect } from 'react';
-import { Button, IconButton, InputAdornment, TextField, Tooltip } from '@mui/material';
-import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Pagination, Grid } from '@mui/material';
-import { IconEdit, IconTrash, IconDetails, IconPlus, IconUserPlus, IconUserCheck, IconSearch } from '@tabler/icons';
-import { useDispatch, useSelector } from 'react-redux';
-
-// project imports
+import { DataGrid } from '@mui/x-data-grid';
+import { IconEdit, IconPlus, IconTrash, IconUserCheck, IconUserPlus } from '@tabler/icons';
+import CustomButton from 'components/button/CustomButton';
 import MainCard from 'components/cards/MainCard';
-import { getUsers } from 'services/userService';
 import Popup from 'components/controls/popup';
-import Add from './TestAdd';
-import Edit from './TestEdit';
-import Delete from './TestDelete';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setOpenPopup, setReloadData, selectedRole } from 'store/actions';
+import { openPopupSelector, reloadDataSelector } from 'store/selectors';
+import Add from '../role/AddRole';
+import Edit from '../role/EditRole';
+import Delete from '../role/DeleteRole';
+import { getRoles } from 'services/roleService';
+import { Button, Grid, Tooltip } from '@mui/material';
 import AnimateButton from 'components/extended/AnimateButton';
-import { setUsers, setOpenPopup, selectedUser } from '../../store/actions';
-import { openPopupSelector, usersSelector } from 'store/selectors';
 
 const TestAPI = () => {
-  const [userData, setUserData] = useState(null);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const dispatch = useDispatch();
+  const openPopup = useSelector(openPopupSelector);
   const [title, setTitle] = useState('');
   const [form, setForm] = useState('');
-  const [searchValue, setSearchValue] = useState('');
-  const dispatch = useDispatch();
-  const userList = useSelector(usersSelector);
-  const openPopup = useSelector(openPopupSelector);
+  const reloadData = useSelector(reloadDataSelector);
+  const [pageState, setPageState] = useState({
+    isLoading: false,
+    data: [],
+    total: 0,
+    startIndex: 0,
+    pageSize: 5
+  });
+  
+  console.log('reloadData' + reloadData)
 
-  useEffect(() => {
-    getUsers().then((data) => {
-      dispatch(setUsers(data));
-    });
-  }, [dispatch]);
-
-  useEffect(() => {
-    setUserData(userList);
-    setTotalPages(Math.ceil(userList.length / 6));
-  }, [userList]);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleAddUser = () => {
-    setTitle(<><IconUserPlus /> Add user </>);
-    setForm('add')
-    dispatch(setOpenPopup(true))
-  };
-
-  const handleEditUser = (user) => {
-    dispatch(selectedUser(user))
-    setTitle(<><IconUserCheck /> Edit user </>);
-    setForm('edit')
-    dispatch(setOpenPopup(true))
-  };
-
-  const handleDeleteUser = (user) => {
-    dispatch(selectedUser(user))
-    setTitle(<> Delete user </>);
-    setForm('delete')
-    dispatch(setOpenPopup(true))
-  };
-
-  const handleSearch = (event) => {
-    setSearchValue(event.target.value);
-  };
-
-  const rowsPerPage = 6;
-  const startIndex = (page - 1) * rowsPerPage;
-  const endIndex = page * rowsPerPage;
-
-  return (
-    <>
-      <MainCard
-        title="TestAPI"
-        secondary={
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={9}>
-              <TextField
-                id="search-input"
-                label="Search"
-                variant="outlined"
-                size="small"
-                value={searchValue}
-                onChange={handleSearch}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton>
-                        <IconSearch color='#2196F3'/>
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={3}>
+  const columns = [
+    {
+      field: 'rowIndex',
+      headerName: 'STT',
+      width: 70
+    },
+    {
+      field: 'name',
+      headerName: 'Tên nhóm quyền',
+      width: 300
+    },
+    {
+      field: 'actions',
+      headerName: 'Hành động',
+      width: 160,
+      sortable: false,
+      filterable: false,
+      renderCell: (params) => (
+        <>
+          <Grid container spacing={1} direction="row">
+            <Grid item>
               <AnimateButton>
-                <Tooltip title="Add" placement="bottom">
-                  <Button color="info" variant="outlined" size="medium" onClick={handleAddUser}>
-                    <IconPlus /> Add
+                <Tooltip title="Chỉnh sửa" placement="bottom">
+                  <Button
+                    color="success"
+                    variant="outlined"
+                    size="small"
+                    onClick={() => handleEditRole(params.row)}
+                  >
+                    <IconEdit />
+                  </Button>
+                </Tooltip>
+              </AnimateButton>
+            </Grid>
+            <Grid item>
+              <AnimateButton>
+                <Tooltip title="Xóa" placement="bottom">
+                  <Button
+                    color="error"
+                    variant="outlined"
+                    size="small"
+                    onClick={() => handleDeleteRole(params.row)}
+                  >
+                    <IconTrash />
                   </Button>
                 </Tooltip>
               </AnimateButton>
             </Grid>
           </Grid>
-        }
+        </>
+      ),      
+    },
+  ];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log('ON');
+      setPageState((old) => ({ ...old, isLoading: true }));
+      const params = new URLSearchParams();
+      // if (search) {
+      //   params.append('Search', search);
+      // }
+      params.append('StartIndex', pageState.startIndex);
+      params.append('PageSize', pageState.pageSize);
+      const response = await getRoles(params);
+      const json = await response;
+        console.log(json)
+      // Assign a unique 'id' property to each row based on 'roleId'
+      const dataWithIds = json.map((row, index) => ({
+        id: index + 1,
+        ...row
+      }));
+
+      dispatch(setReloadData(false));
+
+      setPageState((old) => ({
+        ...old,
+        isLoading: false,
+        data: dataWithIds,
+        total: dataWithIds[0]?.totalRow || 0
+      }));
+    };
+    fetchData();
+  }, [pageState.startIndex, pageState.pageSize, reloadData]);
+
+  const handleAddRole = () => {
+    setTitle(<><IconUserPlus /> Thêm nhóm quyền </>);
+    setForm('add')
+    dispatch(setOpenPopup(true));
+  };
+
+  const handleEditRole = (role) => {
+    setTitle(<><IconUserCheck /> Chỉnh sửa nhóm quyền </>);
+    setForm('edit')
+    dispatch(selectedRole(role));
+    dispatch(setOpenPopup(true));
+  };
+
+  const handleDeleteRole = (role) => {
+    setTitle(<> Xóa nhóm quyền </>);
+    setForm('delete')
+    dispatch(selectedRole(role));
+    dispatch(setOpenPopup(true));
+  };
+
+  return (
+    <>
+      <MainCard
+        title="Nhóm quyền"
+        secondary={<CustomButton handleClick={handleAddRole} icon={IconPlus} label={'Thêm'} title={'Thêm mới'}/>}
       >
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Action</TableCell>
-              </TableRow>
-            </TableHead>
-            {userData ? (
-              <TableBody>
-                {userData.slice(startIndex, endIndex).map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell>{user.id}</TableCell>
-                    <TableCell>{user.name}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.phone}</TableCell>
-                    <TableCell>
-                      <Tooltip title="Detail" placement="bottom">
-                        <Button color="info" variant="outlined" size="small">
-                          <IconDetails />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip title="Edit" placement="bottom">
-                        <Button color="success" variant="outlined" size="small"  onClick={() => handleEditUser(user)}>
-                          <IconEdit />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip title="Delete" placement="bottom">
-                        <Button color="error" variant="outlined" size="small" onClick={() => handleDeleteUser(user)}>
-                          <IconTrash />
-                        </Button>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            ) : (
-              <TableBody>
-                <TableRow>
-                  <TableCell colSpan={3}>Loading...</TableCell>
-                </TableRow>
-              </TableBody>
-            )}
-          </Table>
-        </TableContainer>
-        <Pagination count={totalPages} page={page} onChange={handleChangePage} />
+        <DataGrid
+          autoHeight
+          columns={columns}
+          rows={pageState.data}
+          rowCount={pageState.total}
+          loading={pageState.isLoading}
+          rowsPerPageOptions={[5, 10, 25, 50, 100]}
+          pagination
+          page={pageState.startIndex}
+          pageSize={pageState.pageSize}
+          paginationMode="server"
+          onPageChange={(newPage) => {
+            console.log(newPage)
+            setPageState((old) => ({ ...old, startIndex: newPage }));
+          }}
+          onPageSizeChange={(newPageSize) => {
+            console.log(newPageSize)
+            setPageState((old) => ({ ...old, pageSize: newPageSize }))
+          }}
+          disableSelectionOnClick={true}
+        />
       </MainCard>
       <Popup title={title} openPopup={openPopup}>
         {form === 'add' ? <Add /> : form === 'edit' ? <Edit /> : <Delete />}

@@ -2,15 +2,15 @@ import React from 'react';
 import { FormControl, InputLabel, Input, Button, Grid } from '@mui/material';
 import { useFormik } from 'formik';
 import { createRole } from 'services/roleService';
-import { addRole, setOpenPopup, showAlert } from 'store/actions';
-import { useDispatch, useSelector } from 'react-redux';
+import { setOpenPopup, showAlert, setReloadData } from 'store/actions';
+import { useDispatch } from 'react-redux';
 import { roleValidationSchema } from 'components/validations/roleValidation';
 import AnimateButton from 'components/extended/AnimateButton';
-import { rolesSelector } from 'store/selectors';
+// import { rolesSelector } from 'store/selectors';
 
 const AddRole = () => {
   const dispatch = useDispatch();
-  const roles = useSelector(rolesSelector);
+  // const roles = useSelector(rolesSelector);
 
   const formik = useFormik({
     initialValues: {
@@ -21,11 +21,17 @@ const AddRole = () => {
       try {
         dispatch(setOpenPopup(false));
         const addedRoles = await createRole(values);
-        const modifiedData = { ...addedRoles.data, rowIndex: roles.length + 1 };
-        dispatch(addRole(modifiedData));
-        dispatch(showAlert(new Date().getTime().toString(), 'success', addedRoles.message.toString()));
+        if(addedRoles.isSuccess == false){
+          dispatch(showAlert(new Date().getTime().toString(), 'error', addedRoles.message.toString()));
+        } else {
+          // const modifiedData = { ...addedRoles.data, rowIndex: roles.length + 1 };
+          // dispatch(addRole(modifiedData));
+          dispatch(setReloadData(true));
+          dispatch(showAlert(new Date().getTime().toString(), 'success', addedRoles.message.toString()));
+        }
+
       } catch (error) {
-        console.error(error);
+        console.error('error' + error);
         dispatch(showAlert(new Date().getTime().toString(), 'error', error.toString()));
       }
     }

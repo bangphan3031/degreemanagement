@@ -5,7 +5,7 @@ import { roleValidationSchema } from '../../components/validations/roleValidatio
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { editRole } from 'services/roleService';
-import { showAlert, setOpenPopup, updatedRole } from 'store/actions';
+import { showAlert, setOpenPopup, setReloadData } from 'store/actions';
 import { selectedRoleSelector } from 'store/selectors';
 import AnimateButton from 'components/extended/AnimateButton';
 
@@ -26,9 +26,12 @@ const EditRole = () => {
           ...values,
           roleId: selectedRole.roleId
         });
-        const modifiedData = { ...roleUpdated.data, rowIndex: selectedRole.rowIndex };
-        dispatch(updatedRole(modifiedData));
-        dispatch(showAlert(new Date().getTime().toString(), 'success', roleUpdated.message.toString()));
+        if(roleUpdated.isSuccess == false){
+          dispatch(showAlert(new Date().getTime().toString(), 'error', roleUpdated.message.toString()));
+        } else {
+          dispatch(setReloadData(true));
+          dispatch(showAlert(new Date().getTime().toString(), 'success', roleUpdated.message.toString()));
+        }
       } catch (error) {
         console.error('Error updating role:', error);
         dispatch(showAlert(new Date().getTime().toString(), 'error', error.toString()));
