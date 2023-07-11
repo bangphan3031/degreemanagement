@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -34,15 +35,15 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 // import Google from 'assets/images/icons/social-google.svg';
-import { login } from 'services/roleService';
+import { login } from 'services/authService';
 import Alert from 'components/controls/alert';
 import { showAlert } from 'store/actions';
 import { showAlertSelector } from 'store/selectors';
 
-
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
   const scriptedRef = useScriptRef();
@@ -138,11 +139,13 @@ const FirebaseLogin = ({ ...others }) => {
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             const loggedInUser = await login(values);
-            console.log(loggedInUser)
-            if (loggedInUser.data.user.token) {
+            if (loggedInUser.isSuccess) {
+              const menu = JSON.stringify(loggedInUser.data.menu);
               localStorage.setItem('token', loggedInUser.data.user.token);
               localStorage.setItem('user', loggedInUser.data.user.username);
+              localStorage.setItem('menu', menu);
               dispatch(showAlert(new Date().getTime().toString(), 'success', loggedInUser.message.toString()));
+              navigate('/');
             }
             else {
               dispatch(showAlert(new Date().getTime().toString(), 'error', loggedInUser.message.toString()));

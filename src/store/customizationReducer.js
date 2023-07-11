@@ -130,6 +130,11 @@ const customizationReducer = (state = initialState, action) => {
         alertType: action.payload.alertType,
         alertContent: action.payload.alertContent,
       };
+    case actionTypes.SET_MENU_CUSTOM:
+      return {
+        ...state,
+        menu: action.menu
+      };
     // Default
     default:
       return state;

@@ -17,6 +17,8 @@ export const SELECTED_ROLE = '@customization/SELECTED_ROLE';
 export const POPUP_OPEN = '@customization/POPUP_OPEN';
 export const SHOW_ALERT = '@customization/SHOW_ALERT';
 export const RELOAD_DATA = '@customization/RELOAD_DATA';
+export const SET_MENU_CUSTOM = '@customization/SET_MENU_CUSTOME';
+
 // actions.js
 export const setUsers = (data) => ({ type: SET_USERS, users: data });
 export const setRoles = (data) => ({ type: SET_ROLES, roles: data });
@@ -33,4 +35,8 @@ export const setReloadData = (status) => ({ type: RELOAD_DATA, reloadData: statu
 export const showAlert = (alertId, alertType, alertContent) => ({
     type: SHOW_ALERT,
     payload: { alertId, alertType, alertContent },
+});
+export const setMenuCustom = (menu) => ({
+    type: SET_MENU_CUSTOM,
+    menu: menu
 });

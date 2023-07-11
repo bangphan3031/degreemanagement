@@ -24,8 +24,6 @@ const AddRole = () => {
         if(addedRoles.isSuccess == false){
           dispatch(showAlert(new Date().getTime().toString(), 'error', addedRoles.message.toString()));
         } else {
-          // const modifiedData = { ...addedRoles.data, rowIndex: roles.length + 1 };
-          // dispatch(addRole(modifiedData));
           dispatch(setReloadData(true));
           dispatch(showAlert(new Date().getTime().toString(), 'success', addedRoles.message.toString()));
         }

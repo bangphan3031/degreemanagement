@@ -13,13 +13,14 @@ import Footer from './Footer'; // Import component footer tách riêng
 // import Customization from '../Customization';
 import navigation from 'menu-items';
 import { drawerWidth } from 'store/constant';
-import { SET_MENU } from 'store/actions';
+import { SET_MENU, setMenuCustom } from 'store/actions';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
 //
 import { showAlertSelector } from 'store/selectors';
 import Alert from 'components/controls/alert';
+import { useEffect } from 'react';
 
 // styles
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
@@ -58,14 +59,20 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
 // ==============================|| MAIN LAYOUT ||============================== //
 
 const MainLayout = () => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
-  const dispatch = useDispatch();
   const showAlert = useSelector(showAlertSelector);
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
+
+  useEffect(() => {
+    // Gọi API để lấy dữ liệu menu sau khi trang được tải
+    const menuData = JSON.parse(localStorage.getItem('menu'));
+    dispatch(setMenuCustom(menuData));
+  }, [dispatch]);
 
   return (
     <Box sx={{ display: 'flex' }}>

@@ -4,18 +4,18 @@ import { IconDashboard } from '@tabler/icons';
 // constant
 const icons = { IconDashboard };
 
-// ==============================|| DASHBOARD MENU ITEMS ||============================== //
+// ============================== DASHBOARD MENU ITEMS ============================== //
 
 const dashboard = {
   id: 'dashboard',
-  title: 'Dashboard',
+  title: '',
   type: 'group',
   children: [
     {
       id: 'default',
-      title: 'Dashboard',
+      title: 'Trang chủ',
       type: 'item',
-      url: '/dashboard/default',
+      url: '',
       icon: icons.IconDashboard,
       breadcrumbs: false
     }

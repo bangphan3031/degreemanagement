@@ -24,22 +24,24 @@ const TestAPI = () => {
     isLoading: false,
     data: [],
     total: 0,
+    order: 0,
+    orderDir: 'ASC',
     startIndex: 0,
     pageSize: 5
   });
-  
-  console.log('reloadData' + reloadData)
 
   const columns = [
     {
       field: 'rowIndex',
       headerName: 'STT',
-      width: 70
+      width: 70,
+      sortable: false,
+      filterable: false,
     },
     {
       field: 'name',
       headerName: 'Tên nhóm quyền',
-      width: 300
+      flex: 1
     },
     {
       field: 'actions',
@@ -89,16 +91,22 @@ const TestAPI = () => {
       console.log('ON');
       setPageState((old) => ({ ...old, isLoading: true }));
       const params = new URLSearchParams();
-      // if (search) {
-      //   params.append('Search', search);
-      // }
+      if (pageState.search) {
+        params.append('Search', pageState.search);
+      }
+      if (pageState.order) {
+        params.append('Order', pageState.order);
+      }
+      if (pageState.orderDir) {
+        params.append('OrderDir', pageState.orderDir);
+      }
       params.append('StartIndex', pageState.startIndex);
       params.append('PageSize', pageState.pageSize);
       const response = await getRoles(params);
-      const json = await response;
-        console.log(json)
+      const data = await response.data;
+        console.log(data)
       // Assign a unique 'id' property to each row based on 'roleId'
-      const dataWithIds = json.map((row, index) => ({
+      const dataWithIds = data.map((row, index) => ({
         id: index + 1,
         ...row
       }));
@@ -113,7 +121,7 @@ const TestAPI = () => {
       }));
     };
     fetchData();
-  }, [pageState.startIndex, pageState.pageSize, reloadData]);
+  }, [pageState.search, pageState.order, pageState.orderDir ,pageState.startIndex, pageState.pageSize, reloadData]);
 
   const handleAddRole = () => {
     setTitle(<><IconUserPlus /> Thêm nhóm quyền </>);
@@ -159,6 +167,17 @@ const TestAPI = () => {
           onPageSizeChange={(newPageSize) => {
             console.log(newPageSize)
             setPageState((old) => ({ ...old, pageSize: newPageSize }))
+          }}
+          onSortModelChange={(newSortModel) => {
+            const field = newSortModel[0]?.field;
+            const sort = newSortModel[0]?.sort;
+            console.log('field: '+field, 'sort: '+sort)
+            setPageState((old) => ({ ...old, order: field, orderDir: sort }))
+          }}
+          onFilterModelChange={(newSearchModel) => {
+            const value = newSearchModel.items[0]?.value;
+            console.log(value)
+            setPageState((old) => ({ ...old, search: value }))
           }}
           disableSelectionOnClick={true}
         />

@@ -95,10 +95,10 @@ const TestAPI = () => {
       params.append('StartIndex', pageState.startIndex);
       params.append('PageSize', pageState.pageSize);
       const response = await getRoles(params);
-      const json = await response;
-        console.log(json)
+      const data = await response.data;
+        console.log(data)
       // Assign a unique 'id' property to each row based on 'roleId'
-      const dataWithIds = json.map((row, index) => ({
+      const dataWithIds = data.map((row, index) => ({
         id: index + 1,
         ...row
       }));

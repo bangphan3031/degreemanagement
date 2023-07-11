@@ -8,3 +8,4 @@ export const reloadDataSelector = (state) => state.customization.reloadData;
 export const alertIdSelector = (state) => state.customization.alertId;
 export const alertTypeSelector = (state) => state.customization.alertType;
 export const alertContentSelector = (state) => state.customization.alertContent;
+export const menuSelector = (state) => state.customization.menu;

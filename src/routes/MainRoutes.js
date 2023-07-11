@@ -57,6 +57,56 @@ const MainRoutes = {
       ]
     },
     {
+      path: 'vanbang',
+      children: [
+        {
+          path: 'vanbang',
+          element: <Role />
+        }
+      ]
+    },
+    {
+      path: 'user',
+      children: [
+        {
+          path: 'user',
+          element: <Role />
+        }
+      ]
+    },
+    {
+      path: 'user',
+      children: [
+        {
+          path: 'cap3_1',
+          element: <Role />
+        }
+      ]
+    },
+    {
+      path: 'user',
+      children: [
+        {
+          path: 'cap3',
+          children: [
+            {
+              path: 'cap4',
+              element: <Role />
+            }
+          ]
+        }
+      ]
+    },
+    {
+      path: 'function',
+      children: [
+        {
+          path: 'function',
+          element: <Role />
+        }
+      ]
+    },
+    {
       path: 'utils',
       children: [
         {
