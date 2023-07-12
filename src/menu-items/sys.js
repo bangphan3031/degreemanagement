@@ -1,9 +1,9 @@
 // assets
-import { IconUser, IconSettings, IconBrowserCheck } from '@tabler/icons';
+import { IconSettings, IconBrowserCheck } from '@tabler/icons';
 
 // constant
 const icons = {
-  IconUser, IconSettings, IconBrowserCheck
+  IconSettings, IconBrowserCheck
 };
 
 // ==============================|| TEST MENU ITEMS ||============================== //
@@ -13,14 +13,6 @@ const test = {
   title: 'Hệ thống',
   type: 'group',
   children: [
-    {
-      id: 'test-api',
-      title: 'Người dùng',
-      type: 'item',
-      url: '/test/testAPI',
-      icon: icons.IconUser,
-      breadcrumbs: false
-    },
     {
       id: 'role',
       title: 'Nhóm quyền',

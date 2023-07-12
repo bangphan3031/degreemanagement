@@ -9,12 +9,14 @@ import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapper from '../AuthCardWrapper';
 import AuthLogin from '../auth-forms/AuthLogin';
 import logo from 'assets/images/icons/LogoVNPT.png';
+import { useTranslation } from 'react-i18next';
 
 // assets
 
 // ================================|| AUTH3 - LOGIN ||================================ //
 
 const Login = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -39,7 +41,7 @@ const Login = () => {
                             VNPT Cent
                           </Typography>
                           <Typography variant="caption" fontSize="16px" textAlign={matchDownSM ? 'center' : 'inherit'}>
-                            Chào mừng trở lại
+                            {t('login.welcome')}
                           </Typography>
                         </Stack>
                       </Grid>
@@ -54,7 +56,7 @@ const Login = () => {
                   <Grid item xs={12}>
                     <Grid item container direction="column" alignItems="center" xs={12}>
                       <Typography component={Link} to="/pages/register/register3" variant="subtitle1" sx={{ textDecoration: 'none' }}>
-                        Chưa có tài khoản?
+                        {t('login.register')}
                       </Typography>
                     </Grid>
                   </Grid>

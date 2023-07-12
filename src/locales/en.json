@@ -2,8 +2,16 @@
     "homePage.title": "Home",
     "homePage.welcomeMessage": "Welcome to the home page!",
 
+    "login.welcome": "Welcome back",
+    "login.register": "Don't have an account?",
+    "login.remember": "Remember me",
+    "login.forgotpass": "Forgot password?",
+    "login.input.lable.username": "Username",
+    "login.input.lable.password": "Password",
+
     "validattion.role.name": "Role name is required",
 
+    "serial": "Index",
     "action": "Action",
     "button.save": "Save",
     "button.lable.add": "Add",
@@ -14,12 +22,16 @@
     "button.close": "Close",
     "button.canel": "Cancel",
     "button.delete": "Delete",
+    "button.login": "Login",
+
+    "form.delete.warning1": "Are you sure?",
+    "form.delete.warning2": "Data will not be recoverable!",
 
     "role.title": "Roles",
     "role.title.add": "Add role",
     "role.title.edit": "Edit role",
     "role.title.delete": "Delete role",
     "role.field.name": "Role name",
-    "role.input.lable": "Role name"
+    "role.input.lable.name": "Role name"
 
 }

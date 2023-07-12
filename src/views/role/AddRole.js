@@ -40,7 +40,7 @@ const AddRole = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <FormControl fullWidth>
-            <InputLabel htmlFor="name-input">{t('role.input.lable')}</InputLabel>
+            <InputLabel htmlFor="name-input">{t('role.input.lable.name')}</InputLabel>
             <Input
               id="name-input"
               name="name"

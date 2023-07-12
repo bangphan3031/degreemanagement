@@ -8,6 +8,7 @@ import { editRole } from 'services/roleService';
 import { showAlert, setOpenPopup, setReloadData } from 'store/actions';
 import { selectedRoleSelector } from 'store/selectors';
 import AnimateButton from 'components/extended/AnimateButton';
+import { useTranslation } from 'react-i18next';
 
 const EditRole = () => {
 
@@ -53,7 +54,7 @@ const EditRole = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <FormControl fullWidth>
-            <InputLabel htmlFor="name-input">Tên</InputLabel>
+            <InputLabel htmlFor="name-input">{t('role.input.lable.name')}</InputLabel>
             <Input
               id="name-input"
               name="name"

@@ -19,43 +19,43 @@ const DeleteRole = () => {
 
   const handleDeleteClick = async () => {
     try {
-        dispatch(setOpenPopup(false));
-        const roleDeleted = await deleteRole(selectedRole.roleId);
-        if(roleDeleted.isSuccess == false){
-          dispatch(showAlert(new Date().getTime().toString(), 'error', roleDeleted.message.toString()));
-        } else {
-          dispatch(setReloadData(true));
-          dispatch(showAlert(new Date().getTime().toString(), 'success', roleDeleted.message.toString()));
-        }
-      } catch (error) {
-        console.error('Error updating role:', error);
-        dispatch(showAlert(new Date().getTime().toString(), 'error', error.toString()));
+      dispatch(setOpenPopup(false));
+      const roleDeleted = await deleteRole(selectedRole.roleId);
+      if(roleDeleted.isSuccess == false){
+        dispatch(showAlert(new Date().getTime().toString(), 'error', roleDeleted.message.toString()));
+      } else {
+        dispatch(setReloadData(true));
+        dispatch(showAlert(new Date().getTime().toString(), 'success', roleDeleted.message.toString()));
       }
+    } catch (error) {
+      console.error('Error updating role:', error);
+      dispatch(showAlert(new Date().getTime().toString(), 'error', error.toString()));
+    }
   }
 
   return (
     <div style={{ textAlign: 'center' }}>
-        <IconAlertCircle size={100} color='red'/>
-        <p>
-            <strong>Bạn chắc chứ?</strong>
-        </p>
-        <p>Bạn sẽ không thể khôi phục!</p>
-        <Grid container spacing={1} direction="row" justifyContent="center" my={2}>
-          <Grid item>
-            <AnimateButton>
-              <Button onClick={handleCancelClick} variant="outlined" sx={{marginRight: '20px'}}>
-                {t('button.canel')}
-              </Button>
-            </AnimateButton>
-          </Grid>
-          <Grid item>
-            <AnimateButton>
-              <Button onClick={handleDeleteClick} variant="contained" color="error">
-                {t('button.delete')}
-              </Button>
-            </AnimateButton>
-          </Grid>
+      <IconAlertCircle size={100} color='red'/>
+      <p>
+        <strong>{t('form.delete.warning1')}</strong>
+      </p>
+      <p>{t('form.delete.warning2')}</p>
+      <Grid container spacing={1} direction="row" justifyContent="center" my={2}>
+        <Grid item>
+          <AnimateButton>
+            <Button onClick={handleCancelClick} variant="outlined" sx={{marginRight: '20px'}}>
+              {t('button.canel')}
+            </Button>
+          </AnimateButton>
         </Grid>
+        <Grid item>
+          <AnimateButton>
+            <Button onClick={handleDeleteClick} variant="contained" color="error">
+              {t('button.delete')}
+            </Button>
+          </AnimateButton>
+        </Grid>
+      </Grid>
     </div>
   );
 };

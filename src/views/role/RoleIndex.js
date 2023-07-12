@@ -35,7 +35,7 @@ const TestAPI = () => {
   const columns = [
     {
       field: 'rowIndex',
-      headerName: 'STT',
+      headerName: t('serial'),
       width: 70,
       sortable: false,
       filterable: false,

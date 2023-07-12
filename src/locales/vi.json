@@ -2,8 +2,16 @@
     "homePage.title": "Trang chủ",
     "homePage.welcomeMessage": "Chào mừng đến với trang chủ!",
 
+    "login.welcome": "Chào mừng trở lại",
+    "login.register": "Chưa có tài khoản?",
+    "login.remember": "Nhớ tài khoản",
+    "login.forgotpass": "Quên mật khẩu?",
+    "login.input.lable.username": "Tài khoản",
+    "login.input.lable.password": "Mật khẩu",
+
     "validattion.role.name": "Tên nhóm quyền không được để trống",
 
+    "serial": "STT",
     "action": "Hành động",
     "button.save": "Lưu",
     "button.lable.add": "Thêm",
@@ -14,12 +22,16 @@
     "button.close": "Đóng",
     "button.canel": "Hủy",
     "button.delete": "Xóa",
+    "button.login": "Đăng nhập",
+
+    "form.delete.warning1": "Bạn chắc chứ?",
+    "form.delete.warning2": "Dữ liệu sẽ không thể khôi phục!",
 
     "role.title": "Nhóm quyền",
     "role.title.add": "Thêm nhóm quyền",
     "role.title.edit": "Chỉnh sửa nhóm quyền",
     "role.title.delete": "Xóa nhóm quyền",
     "role.field.name": "Tên nhóm quyền",
-    "role.input.lable": "Tên nhóm quyền"
+    "role.input.lable.name": "Tên nhóm quyền"
 
 }
