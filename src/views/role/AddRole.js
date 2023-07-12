@@ -6,11 +6,11 @@ import { setOpenPopup, showAlert, setReloadData } from 'store/actions';
 import { useDispatch } from 'react-redux';
 import { roleValidationSchema } from 'components/validations/roleValidation';
 import AnimateButton from 'components/extended/AnimateButton';
-// import { rolesSelector } from 'store/selectors';
+import { useTranslation } from 'react-i18next';
 
 const AddRole = () => {
   const dispatch = useDispatch();
-  // const roles = useSelector(rolesSelector);
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
@@ -40,7 +40,7 @@ const AddRole = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <FormControl fullWidth>
-            <InputLabel htmlFor="name-input">Tên</InputLabel>
+            <InputLabel htmlFor="name-input">{t('role.input.lable')}</InputLabel>
             <Input
               id="name-input"
               name="name"
@@ -55,15 +55,15 @@ const AddRole = () => {
           <Grid container spacing={1} direction="row" my={2}>
             <Grid item>
               <AnimateButton>
-                <Button type="submit" variant="contained" color="primary">
-                  Lưu
+                <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
+                  {t('button.reset')}
                 </Button>
               </AnimateButton>
             </Grid>
-            <Grid item>
+            <Grid item sx={{ marginLeft: 'auto' }}>
               <AnimateButton>
-                <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
-                  Làm mới
+                <Button type="submit" variant="contained" color="primary">
+                  {t('button.save')}
                 </Button>
               </AnimateButton>
             </Grid>

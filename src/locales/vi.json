@@ -1,0 +1,25 @@
+{
+    "homePage.title": "Trang chủ",
+    "homePage.welcomeMessage": "Chào mừng đến với trang chủ!",
+
+    "validattion.role.name": "Tên nhóm quyền không được để trống",
+
+    "action": "Hành động",
+    "button.save": "Lưu",
+    "button.lable.add": "Thêm",
+    "button.title.add": "Thêm mới",
+    "button.title.edit": "Chỉnh sửa",
+    "button.title.delete": "Xóa",
+    "button.reset": "Làm mới",
+    "button.close": "Đóng",
+    "button.canel": "Hủy",
+    "button.delete": "Xóa",
+
+    "role.title": "Nhóm quyền",
+    "role.title.add": "Thêm nhóm quyền",
+    "role.title.edit": "Chỉnh sửa nhóm quyền",
+    "role.title.delete": "Xóa nhóm quyền",
+    "role.field.name": "Tên nhóm quyền",
+    "role.input.lable": "Tên nhóm quyền"
+
+}

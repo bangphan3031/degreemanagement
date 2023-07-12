@@ -3,11 +3,13 @@ import { createRoot } from 'react-dom/client';
 // third party
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { I18nextProvider } from 'react-i18next';
 
 // project imports
 import * as serviceWorker from 'serviceWorker';
 import App from 'App';
 import { store } from 'store';
+import i18n from 'i18n';
 
 // style + assets
 import 'assets/scss/style.scss';
@@ -19,9 +21,11 @@ const container = document.getElementById('root');
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
 root.render(
   <Provider store={store}>
-    <BrowserRouter basename={config.basename}>
-      <App />
-    </BrowserRouter>
+    <I18nextProvider i18n={i18n}>
+      <BrowserRouter basename={config.basename}>
+        <App />
+      </BrowserRouter>
+    </I18nextProvider>
   </Provider>
 );
 

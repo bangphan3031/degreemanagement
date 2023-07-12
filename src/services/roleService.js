@@ -2,7 +2,7 @@ import { sendRequest } from 'utils/apiUtils';
 
 export async function getRoles(params) {
   try {
-    const response = await sendRequest(`Role/GetAllByParams?${params}`, 'GET', null);
+    const response = await sendRequest(`Role/GetAllByParams?${params}`, 'GET');
     return response;
   } catch (error) {
     console.error('Error creating role:', error);

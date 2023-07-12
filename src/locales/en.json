@@ -1,0 +1,25 @@
+{
+    "homePage.title": "Home",
+    "homePage.welcomeMessage": "Welcome to the home page!",
+
+    "validattion.role.name": "Role name is required",
+
+    "action": "Action",
+    "button.save": "Save",
+    "button.lable.add": "Add",
+    "button.title.add": "Add new",
+    "button.title.edit": "Edit",
+    "button.title.delete": "Delete",
+    "button.reset": "Clear",
+    "button.close": "Close",
+    "button.canel": "Cancel",
+    "button.delete": "Delete",
+
+    "role.title": "Roles",
+    "role.title.add": "Add role",
+    "role.title.edit": "Edit role",
+    "role.title.delete": "Delete role",
+    "role.field.name": "Role name",
+    "role.input.lable": "Role name"
+
+}

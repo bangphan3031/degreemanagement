@@ -6,9 +6,10 @@ import { deleteRole } from 'services/roleService';
 import { setOpenPopup, setReloadData, showAlert } from 'store/actions';
 import { selectedRoleSelector } from 'store/selectors';
 import AnimateButton from 'components/extended/AnimateButton';
+import { useTranslation } from 'react-i18next';
 
 const DeleteRole = () => {
-
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const selectedRole = useSelector(selectedRoleSelector);
 
@@ -43,14 +44,14 @@ const DeleteRole = () => {
           <Grid item>
             <AnimateButton>
               <Button onClick={handleCancelClick} variant="outlined" sx={{marginRight: '20px'}}>
-                Hủy
+                {t('button.canel')}
               </Button>
             </AnimateButton>
           </Grid>
           <Grid item>
             <AnimateButton>
               <Button onClick={handleDeleteClick} variant="contained" color="error">
-                Xóa
+                {t('button.delete')}
               </Button>
             </AnimateButton>
           </Grid>

@@ -19,7 +19,8 @@ export const initialState = {
   alertId: null,
   alertType: '',
   alertContent: '',
-  reloadData: false
+  reloadData: false,
+  menu: []
 };
 
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //

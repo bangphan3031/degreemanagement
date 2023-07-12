@@ -13,6 +13,7 @@ import Delete from '../role/DeleteRole';
 import { getRoles } from 'services/roleService';
 import { Button, Grid, Tooltip } from '@mui/material';
 import AnimateButton from 'components/extended/AnimateButton';
+import { useTranslation } from 'react-i18next';
 
 const TestAPI = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const TestAPI = () => {
   const [title, setTitle] = useState('');
   const [form, setForm] = useState('');
   const reloadData = useSelector(reloadDataSelector);
+  const { t } = useTranslation();
   const [pageState, setPageState] = useState({
     isLoading: false,
     data: [],
@@ -40,12 +42,12 @@ const TestAPI = () => {
     },
     {
       field: 'name',
-      headerName: 'Tên nhóm quyền',
+      headerName: t('role.field.name'),
       flex: 1
     },
     {
       field: 'actions',
-      headerName: 'Hành động',
+      headerName: t('action'),
       width: 160,
       sortable: false,
       filterable: false,
@@ -54,7 +56,7 @@ const TestAPI = () => {
           <Grid container spacing={1} direction="row">
             <Grid item>
               <AnimateButton>
-                <Tooltip title="Chỉnh sửa" placement="bottom">
+                <Tooltip title={t('button.title.edit')} placement="bottom">
                   <Button
                     color="success"
                     variant="outlined"
@@ -68,7 +70,7 @@ const TestAPI = () => {
             </Grid>
             <Grid item>
               <AnimateButton>
-                <Tooltip title="Xóa" placement="bottom">
+                <Tooltip title={t('button.title.delete')} placement="bottom">
                   <Button
                     color="error"
                     variant="outlined"
@@ -88,7 +90,6 @@ const TestAPI = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log('ON');
       setPageState((old) => ({ ...old, isLoading: true }));
       const params = new URLSearchParams();
       if (pageState.search) {
@@ -104,7 +105,6 @@ const TestAPI = () => {
       params.append('PageSize', pageState.pageSize);
       const response = await getRoles(params);
       const data = await response.data;
-        console.log(data)
       // Assign a unique 'id' property to each row based on 'roleId'
       const dataWithIds = data.map((row, index) => ({
         id: index + 1,
@@ -124,20 +124,20 @@ const TestAPI = () => {
   }, [pageState.search, pageState.order, pageState.orderDir ,pageState.startIndex, pageState.pageSize, reloadData]);
 
   const handleAddRole = () => {
-    setTitle(<><IconUserPlus /> Thêm nhóm quyền </>);
+    setTitle(<><IconUserPlus /> {t('role.title.add')} </>);
     setForm('add')
     dispatch(setOpenPopup(true));
   };
 
   const handleEditRole = (role) => {
-    setTitle(<><IconUserCheck /> Chỉnh sửa nhóm quyền </>);
+    setTitle(<><IconUserCheck /> {t('role.title.edit')} </>);
     setForm('edit')
     dispatch(selectedRole(role));
     dispatch(setOpenPopup(true));
   };
 
   const handleDeleteRole = (role) => {
-    setTitle(<> Xóa nhóm quyền </>);
+    setTitle(<> {t('role.title.delete')} </>);
     setForm('delete')
     dispatch(selectedRole(role));
     dispatch(setOpenPopup(true));
@@ -146,8 +146,8 @@ const TestAPI = () => {
   return (
     <>
       <MainCard
-        title="Nhóm quyền"
-        secondary={<CustomButton handleClick={handleAddRole} icon={IconPlus} label={'Thêm'} title={'Thêm mới'}/>}
+        title={t('role.title')}
+        secondary={<CustomButton handleClick={handleAddRole} icon={IconPlus} label={t('button.lable.add')} title={t('button.title.add')}/>}
       >
         <DataGrid
           autoHeight
@@ -161,22 +161,22 @@ const TestAPI = () => {
           pageSize={pageState.pageSize}
           paginationMode="server"
           onPageChange={(newPage) => {
-            console.log(newPage)
+            // console.log(newPage)
             setPageState((old) => ({ ...old, startIndex: newPage }));
           }}
           onPageSizeChange={(newPageSize) => {
-            console.log(newPageSize)
+            // console.log(newPageSize)
             setPageState((old) => ({ ...old, pageSize: newPageSize }))
           }}
           onSortModelChange={(newSortModel) => {
             const field = newSortModel[0]?.field;
             const sort = newSortModel[0]?.sort;
-            console.log('field: '+field, 'sort: '+sort)
+            // console.log('field: '+field, 'sort: '+sort)
             setPageState((old) => ({ ...old, order: field, orderDir: sort }))
           }}
           onFilterModelChange={(newSearchModel) => {
             const value = newSearchModel.items[0]?.value;
-            console.log(value)
+            // console.log(value)
             setPageState((old) => ({ ...old, search: value }))
           }}
           disableSelectionOnClick={true}

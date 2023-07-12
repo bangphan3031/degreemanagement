@@ -12,6 +12,7 @@ import AnimateButton from 'components/extended/AnimateButton';
 const EditRole = () => {
 
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const selectedRole = useSelector(selectedRoleSelector);
 
   const formik = useFormik({
@@ -50,12 +51,13 @@ const EditRole = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2}>
-        <Grid item xs={7}>
+        <Grid item xs={12}>
           <FormControl fullWidth>
             <InputLabel htmlFor="name-input">Tên</InputLabel>
             <Input
               id="name-input"
               name="name"
+              fullWidth={true}
               value={formik.values.name}
               onChange={formik.handleChange}
               error={formik.touched.name && formik.errors.name}
@@ -64,17 +66,17 @@ const EditRole = () => {
             )}
           </FormControl>
           <Grid container spacing={1} direction="row" my={2}>
-            <Grid item>
+            <Grid item >
               <AnimateButton>
-                <Button type="submit" variant="contained" color="primary">
-                  Lưu
+                <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
+                  {t('button.reset')}
                 </Button>
               </AnimateButton>
             </Grid>
-            <Grid item>
+            <Grid item sx={{ marginLeft: 'auto' }}>
               <AnimateButton>
-                <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
-                  Làm mới
+                <Button type="submit" variant="contained" color="primary">
+                  {t('button.save')}
                 </Button>
               </AnimateButton>
             </Grid>
