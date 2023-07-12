@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormControl, InputLabel, Input, Button, Grid } from '@mui/material';
 import { useFormik } from 'formik';
-import { roleValidationSchema } from '../../components/validations/roleValidation';
+import { useRoleValidationSchema } from '../../components/validations/roleValidation';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { editRole } from 'services/roleService';
@@ -15,6 +15,7 @@ const EditRole = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const selectedRole = useSelector(selectedRoleSelector);
+  const roleValidationSchema = useRoleValidationSchema();
 
   const formik = useFormik({
     initialValues: {

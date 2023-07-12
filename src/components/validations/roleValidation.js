@@ -1,6 +1,14 @@
-// import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-export const roleValidationSchema = Yup.object({
-  name: Yup.string().required('Tên nhóm quyền không được để trống'),
-});
+export const useRoleValidationSchema = () => {
+  const { t } = useTranslation();
+
+  const roleValidationSchema = Yup.object({
+    name: Yup.string().required(t('validattion.role.name')),
+  });
+
+  return roleValidationSchema;
+};
+
+export default useRoleValidationSchema;

@@ -4,13 +4,14 @@ import { useFormik } from 'formik';
 import { createRole } from 'services/roleService';
 import { setOpenPopup, showAlert, setReloadData } from 'store/actions';
 import { useDispatch } from 'react-redux';
-import { roleValidationSchema } from 'components/validations/roleValidation';
+import { useRoleValidationSchema } from 'components/validations/roleValidation';
 import AnimateButton from 'components/extended/AnimateButton';
 import { useTranslation } from 'react-i18next';
 
 const AddRole = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const roleValidationSchema = useRoleValidationSchema();
 
   const formik = useFormik({
     initialValues: {
