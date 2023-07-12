@@ -1,6 +1,6 @@
-import { Dialog, DialogContent, DialogContentText, DialogTitle, Slide, IconButton, Tooltip } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Slide, IconButton, Tooltip, Grid } from '@mui/material';
 import { forwardRef } from 'react';
-import MuiTypography from '@mui/material/Typography';
+// import MuiTypography from '@mui/material/Typography';
 import { IconX } from '@tabler/icons';
 import AnimateButton from 'components/extended/AnimateButton';
 import { setOpenPopup } from '../../store/actions';
@@ -28,22 +28,26 @@ export default function Popup(props) {
         keepMounted
         fullWidth= {true}
         maxWidth="sm"
-        style={{ marginBottom: '10%' }}
+        style={{ mb: '10%' }}
       >
         <DialogTitle bgcolor={'#2196F3'} display={'flex'}>
-          <MuiTypography variant="h3" color={'#fff'} flexGrow={1}>
+          <Grid container spacing={1} direction="row">
+          <Grid item color={'#fff'} sx={{fontSize: '20px'}}>
             {title}
-          </MuiTypography>
-          <AnimateButton>
-            <Tooltip title={t('button.close')} placement="bottom">
-              <IconButton size='small' style={{ color: 'white' }} onClick={handleCloseClick}>
-                <IconX fontSize="large" />
-              </IconButton>
-            </Tooltip>
-          </AnimateButton>
+          </Grid>
+          <Grid item sx={{ ml: 'auto' }}>
+            <AnimateButton>
+              <Tooltip title={t('button.close')} placement="bottom">
+                <IconButton size='small' style={{ color: 'white' }} onClick={handleCloseClick}>
+                  <IconX fontSize="large" />
+                </IconButton>
+              </Tooltip>
+            </AnimateButton>
+          </Grid>
+        </Grid>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText marginTop={2}>{children}</DialogContentText>
+          {children}
         </DialogContent>
       </Dialog>
     </div>

@@ -54,7 +54,7 @@ const EditRole = () => {
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <FormControl fullWidth>
+          <FormControl fullWidth sx={{mt: 2}}>
             <InputLabel htmlFor="name-input">{t('role.input.lable.name')}</InputLabel>
             <Input
               id="name-input"
@@ -75,7 +75,7 @@ const EditRole = () => {
                 </Button>
               </AnimateButton>
             </Grid>
-            <Grid item sx={{ marginLeft: 'auto' }}>
+            <Grid item sx={{ ml: 'auto' }}>
               <AnimateButton>
                 <Button type="submit" variant="contained" color="primary">
                   {t('button.save')}

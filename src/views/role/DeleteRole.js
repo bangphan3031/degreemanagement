@@ -7,6 +7,7 @@ import { setOpenPopup, setReloadData, showAlert } from 'store/actions';
 import { selectedRoleSelector } from 'store/selectors';
 import AnimateButton from 'components/extended/AnimateButton';
 import { useTranslation } from 'react-i18next';
+import MuiTypography from '@mui/material/Typography';
 
 const DeleteRole = () => {
   const { t } = useTranslation();
@@ -36,10 +37,12 @@ const DeleteRole = () => {
   return (
     <div style={{ textAlign: 'center' }}>
       <IconAlertCircle size={100} color='red'/>
-      <p>
-        <strong>{t('form.delete.warning1')}</strong>
-      </p>
-      <p>{t('form.delete.warning2')}</p>
+      <MuiTypography variant="h4" gutterBottom>
+        {t('form.delete.warning1')}
+      </MuiTypography>
+      <MuiTypography variant="body1" gutterBottom>
+        {t('form.delete.warning2')}
+      </MuiTypography>
       <Grid container spacing={1} direction="row" justifyContent="center" my={2}>
         <Grid item>
           <AnimateButton>

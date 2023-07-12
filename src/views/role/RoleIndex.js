@@ -1,5 +1,5 @@
 import { DataGrid } from '@mui/x-data-grid';
-import { IconEdit, IconPlus, IconTrash, IconUserCheck, IconUserPlus } from '@tabler/icons';
+import { IconEdit, IconPlus, IconTrash } from '@tabler/icons';
 import CustomButton from 'components/button/CustomButton';
 import MainCard from 'components/cards/MainCard';
 import Popup from 'components/controls/popup';
@@ -124,13 +124,13 @@ const TestAPI = () => {
   }, [pageState.search, pageState.order, pageState.orderDir ,pageState.startIndex, pageState.pageSize, reloadData]);
 
   const handleAddRole = () => {
-    setTitle(<><IconUserPlus /> {t('role.title.add')} </>);
+    setTitle(<> {t('role.title.add')} </>);
     setForm('add')
     dispatch(setOpenPopup(true));
   };
 
   const handleEditRole = (role) => {
-    setTitle(<><IconUserCheck /> {t('role.title.edit')} </>);
+    setTitle(<> {t('role.title.edit')} </>);
     setForm('edit')
     dispatch(selectedRole(role));
     dispatch(setOpenPopup(true));
