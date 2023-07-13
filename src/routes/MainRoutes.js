@@ -3,6 +3,7 @@ import { lazy } from 'react';
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'components/Loadable';
+import Functions from 'views/function/Function';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -62,6 +63,15 @@ const MainRoutes = {
         {
           path: 'user',
           element: <User />
+        }
+      ]
+    },
+    {
+      path: 'function',
+      children: [
+        {
+          path: 'function',
+          element: <Functions />
         }
       ]
     },

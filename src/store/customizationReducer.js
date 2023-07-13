@@ -14,6 +14,7 @@ export const initialState = {
   roles: [],
   selectedUser: '',
   selectedRole: '',
+  selectedFunction: '',
   openPopup: false,
   showAlert: false,
   alertId: null,
@@ -107,6 +108,12 @@ const customizationReducer = (state = initialState, action) => {
       return {
         ...state,
         selectedUser: action.selectedUser
+      };
+    // Functions
+    case actionTypes.SELECTED_FUNCTION:
+      return {
+        ...state,
+        selectedFunction: action.selectedFunction
       };
     case actionTypes.SELECTED_ROLE:
       return {

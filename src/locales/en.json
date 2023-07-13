@@ -15,6 +15,10 @@
 
     "validattion.role.name": "Role name is required",
 
+    "validattion.user.fullname": "Fullname is required",
+    "validattion.user.name": "Username is required",
+    "validattion.user.password": "Password is required",
+
     "serial": "Index",
     "action": "Action",
     "button.save": "Save",
