@@ -1,12 +1,15 @@
 import React from 'react';
-import { FormControl, InputLabel, Input, Button, Grid } from '@mui/material';
+// import { FormControl, InputLabel, Input, Button, Grid, FormHelperText } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { useFormik } from 'formik';
 import { createRole } from 'services/roleService';
 import { setOpenPopup, showAlert, setReloadData } from 'store/actions';
 import { useDispatch } from 'react-redux';
 import { useRoleValidationSchema } from 'components/validations/roleValidation';
-import AnimateButton from 'components/extended/AnimateButton';
+// import AnimateButton from 'components/extended/AnimateButton';
 import { useTranslation } from 'react-i18next';
+import InputForm from 'components/form/InputForm';
+import AnimateButton from 'components/extended/AnimateButton';
 
 const AddRole = () => {
   const dispatch = useDispatch();
@@ -38,8 +41,8 @@ const AddRole = () => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
+      <Grid container spacing={2} my={1}>
+        {/* <Grid item xs={12}>
           <FormControl fullWidth sx={{mt: 2}}>
             <InputLabel htmlFor="name-input">{t('role.input.lable.name')}</InputLabel>
             <Input
@@ -48,10 +51,11 @@ const AddRole = () => {
               fullWidth={true}
               value={formik.values.name}
               onChange={formik.handleChange}
-              error={formik.touched.name && formik.errors.name}
-            /> {formik.touched.name && formik.errors.name && (
-              <div style={{ color: 'red' }}>{formik.errors.name}</div>
-            )}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+            /> 
+            <FormHelperText error={Boolean(formik.errors.name)}>
+              {formik.touched.name && formik.errors.name}
+            </FormHelperText>
           </FormControl>
           <Grid container spacing={1} direction="row" my={2}>
             <Grid item>
@@ -68,6 +72,23 @@ const AddRole = () => {
                 </Button>
               </AnimateButton>
             </Grid>
+          </Grid>
+        </Grid> */}
+        <InputForm formik={formik} name='name' label={t('role.input.lable.name')} type='text' isFirst />
+        <Grid item xs={12} container spacing={3} justifyContent="flex-end" my={2}>
+          <Grid item>
+            <AnimateButton>
+              <Button type="submit" variant="contained" color="primary">
+                Lưu
+              </Button>
+            </AnimateButton>
+          </Grid>
+          <Grid item>
+            <AnimateButton>
+              <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
+                Làm mới
+              </Button>
+            </AnimateButton>
           </Grid>
         </Grid>
       </Grid>

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
@@ -60,6 +60,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
 
 const MainLayout = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const theme = useTheme();
   const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
@@ -71,7 +72,11 @@ const MainLayout = () => {
   useEffect(() => {
     // Gọi API để lấy dữ liệu menu sau khi trang được tải
     const menuData = JSON.parse(localStorage.getItem('menu'));
-    dispatch(setMenuCustom(menuData));
+    if(menuData === null) {
+      navigate('/login')
+    } else{
+      dispatch(setMenuCustom(menuData));
+    }
   }, [dispatch]);
 
   return (

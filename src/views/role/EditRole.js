@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, InputLabel, Input, Button, Grid } from '@mui/material';
+import { FormControl, InputLabel, Input, Button, Grid, FormHelperText } from '@mui/material';
 import { useFormik } from 'formik';
 import { useRoleValidationSchema } from '../../components/validations/roleValidation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -62,10 +62,11 @@ const EditRole = () => {
               fullWidth={true}
               value={formik.values.name}
               onChange={formik.handleChange}
-              error={formik.touched.name && formik.errors.name}
-            /> {formik.touched.name && formik.errors.name && (
-              <div style={{ color: 'red' }}>{formik.errors.name}</div>
-            )}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+            /> 
+            <FormHelperText error={Boolean(formik.errors.name)}>
+              {formik.touched.name && formik.errors.name}
+            </FormHelperText>
           </FormControl>
           <Grid container spacing={1} direction="row" my={2}>
             <Grid item >

@@ -13,7 +13,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 export default function Popup(props) {
   const { t } = useTranslation()
-  const { title, children, openPopup } = props;
+  const { title, children, openPopup, maxWidth } = props;
   const dispatch = useDispatch();
 
   const handleCloseClick = () => {
@@ -27,7 +27,7 @@ export default function Popup(props) {
         TransitionComponent={Transition}
         keepMounted
         fullWidth= {true}
-        maxWidth="sm"
+        maxWidth={maxWidth || "sm"}
         style={{ mb: '10%' }}
       >
         <DialogTitle bgcolor={'#2196F3'} display={'flex'}>

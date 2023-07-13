@@ -2,6 +2,10 @@
     "homePage.title": "Home",
     "homePage.welcomeMessage": "Welcome to the home page!",
 
+    "user.hello": "Hello,",
+    "user.changepass": "Change password",
+    "user.profile": "Profile",
+
     "login.welcome": "Welcome back",
     "login.register": "Don't have an account?",
     "login.remember": "Remember me",
@@ -23,6 +27,7 @@
     "button.canel": "Cancel",
     "button.delete": "Delete",
     "button.login": "Login",
+    "button.logout": "Logout",
 
     "form.delete.warning1": "Are you sure?",
     "form.delete.warning2": "Data will not be recoverable!",

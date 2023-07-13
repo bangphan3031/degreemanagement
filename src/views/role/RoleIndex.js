@@ -14,14 +14,20 @@ import { getRoles } from 'services/roleService';
 import { Button, Grid, Tooltip } from '@mui/material';
 import AnimateButton from 'components/extended/AnimateButton';
 import { useTranslation } from 'react-i18next';
+import useLocalText from 'utils/localText';
+import { createSearchParams, useNavigate } from 'react-router-dom';
+import { handleResponseStatus } from 'utils/handleResponseStatus';
 
 const TestAPI = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
+  const localeText = useLocalText()
   const openPopup = useSelector(openPopupSelector);
   const [title, setTitle] = useState('');
   const [form, setForm] = useState('');
   const reloadData = useSelector(reloadDataSelector);
   const { t } = useTranslation();
+  const [isAccess, setIsAccess] = useState(true);
   const [pageState, setPageState] = useState({
     isLoading: false,
     data: [],
@@ -91,34 +97,29 @@ const TestAPI = () => {
   useEffect(() => {
     const fetchData = async () => {
       setPageState((old) => ({ ...old, isLoading: true }));
-      const params = new URLSearchParams();
-      if (pageState.search) {
-        params.append('Search', pageState.search);
-      }
-      if (pageState.order) {
-        params.append('Order', pageState.order);
-      }
-      if (pageState.orderDir) {
-        params.append('OrderDir', pageState.orderDir);
-      }
-      params.append('StartIndex', pageState.startIndex);
-      params.append('PageSize', pageState.pageSize);
+      const params = await createSearchParams(pageState)
       const response = await getRoles(params);
-      const data = await response.data;
-      // Assign a unique 'id' property to each row based on 'roleId'
-      const dataWithIds = data.map((row, index) => ({
-        id: index + 1,
-        ...row
-      }));
 
-      dispatch(setReloadData(false));
+      const check = await handleResponseStatus(response, navigate);
+      if(check) {
+        const data = await response.data;
+        // Assign a unique 'id' property to each row based on 'roleId'
+        const dataWithIds = data.map((row, index) => ({
+          id: index + 1,
+          ...row
+        }));
 
-      setPageState((old) => ({
-        ...old,
-        isLoading: false,
-        data: dataWithIds,
-        total: dataWithIds[0]?.totalRow || 0
-      }));
+        dispatch(setReloadData(false));
+
+        setPageState((old) => ({
+          ...old,
+          isLoading: false,
+          data: dataWithIds,
+          total: dataWithIds[0]?.totalRow || 0
+        }));
+      } else {
+        setIsAccess(false);
+      }
     };
     fetchData();
   }, [pageState.search, pageState.order, pageState.orderDir ,pageState.startIndex, pageState.pageSize, reloadData]);
@@ -149,7 +150,8 @@ const TestAPI = () => {
         title={t('role.title')}
         secondary={<CustomButton handleClick={handleAddRole} icon={IconPlus} label={t('button.lable.add')} title={t('button.title.add')}/>}
       >
-        <DataGrid
+        {isAccess ? (
+          <DataGrid
           autoHeight
           columns={columns}
           rows={pageState.data}
@@ -179,8 +181,12 @@ const TestAPI = () => {
             // console.log(value)
             setPageState((old) => ({ ...old, search: value }))
           }}
+          localeText={localeText}
           disableSelectionOnClick={true}
         />
+        ) : (<h1>Bạn không có quyền truy cập</h1>)
+        }
+       
       </MainCard>
       <Popup title={title} openPopup={openPopup}>
         {form === 'add' ? <Add /> : form === 'edit' ? <Edit /> : <Delete />}

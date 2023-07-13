@@ -82,9 +82,15 @@ const FirebaseLogin = ({ ...others }) => {
           try {
             const loggedInUser = await login(values);
             if (loggedInUser.isSuccess) {
+              console.log(loggedInUser);
+              const user = {
+                username: loggedInUser.data.user.username,
+                fullname: loggedInUser.data.user.fullName,
+                avatar: loggedInUser.data.user.avatar
+              }
               const menu = JSON.stringify(loggedInUser.data.menu);
               localStorage.setItem('token', loggedInUser.data.user.token);
-              localStorage.setItem('user', loggedInUser.data.user.username);
+              localStorage.setItem('user', JSON.stringify(user));
               localStorage.setItem('menu', menu);
               dispatch(showAlert(new Date().getTime().toString(), 'success', loggedInUser.message.toString()));
               navigate('/');

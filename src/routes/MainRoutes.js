@@ -8,6 +8,7 @@ import Loadable from 'components/Loadable';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
 // utilities routing
+const User = Loadable(lazy(() => import('views/user/User')));
 const Role = Loadable(lazy(() => import('views/role/RoleIndex')));
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
@@ -60,7 +61,7 @@ const MainRoutes = {
       children: [
         {
           path: 'user',
-          element: <Role />
+          element: <User />
         }
       ]
     },
