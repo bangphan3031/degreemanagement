@@ -6,8 +6,11 @@ import { deleteFunction } from 'services/functionService';
 import { setOpenPopup, setReloadData, showAlert } from 'store/actions';
 import { selectedFunctionSelector } from 'store/selectors';
 import AnimateButton from 'components/extended/AnimateButton';
+import MuiTypography from '@mui/material/Typography';
+import { useTranslation } from 'react-i18next';
 
 const DeleteFunction = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const selectedFunction = useSelector(selectedFunctionSelector);
 
@@ -34,22 +37,24 @@ const DeleteFunction = () => {
   return (
     <div style={{ textAlign: 'center' }}>
       <IconAlertCircle size={100} color="red" />
-      <p>
-        <strong>Bạn chắc chứ?</strong>
-      </p>
-      <p>Bạn sẽ không thể khôi phục!</p>
+      <MuiTypography variant="h4" gutterBottom m={2}>
+        {t('form.delete.warning1')}
+      </MuiTypography>
+      <MuiTypography variant="body1" gutterBottom>
+        {t('form.delete.warning2')}
+      </MuiTypography>
       <Grid container spacing={1} direction="row" justifyContent="center" my={2}>
         <Grid item>
           <AnimateButton>
             <Button onClick={handleCancelClick} variant="outlined" sx={{ marginRight: '20px' }}>
-              Hủy
+              {t('button.cancel')}
             </Button>
           </AnimateButton>
         </Grid>
         <Grid item>
           <AnimateButton>
             <Button onClick={handleDeleteClick} variant="contained" color="error">
-              Xóa
+              {t('button.cancel')}
             </Button>
           </AnimateButton>
         </Grid>

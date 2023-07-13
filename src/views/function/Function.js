@@ -15,8 +15,12 @@ import AnimateButton from 'components/extended/AnimateButton';
 import { getFunctions } from 'services/functionService';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { handleResponseStatus } from 'utils/handleResponseStatus';
+import { useTranslation } from 'react-i18next';
+import useLocalText from 'utils/localText';
 
 const Functions = () => {
+  const { t } = useTranslation();
+  const localeText = useLocalText()
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const openPopup = useSelector(openPopupSelector);
@@ -37,7 +41,7 @@ const Functions = () => {
   const columns = [
     {
       field: 'rowIndex',
-      headerName: 'STT',
+      headerName: t('serial'),
       width: 70,
       sortable: false,
       filterable: false
@@ -45,17 +49,17 @@ const Functions = () => {
     {
       flex: 1,
       field: 'name',
-      headerName: 'Tên chức năng'
+      headerName: t('function.field.name')
     },
     {
       flex: 1,
       field: 'description',
-      headerName: 'Mô tả chức năng'
+      headerName: t('function.field.description')
     },
     {
       field: 'actions',
-      headerName: 'Hành động',
-      width: 300,
+      headerName: t('action'),
+      width: 240,
       sortable: false,
       filterable: false,
       renderCell: (params) => (
@@ -63,7 +67,7 @@ const Functions = () => {
           <Grid container spacing={1} direction="row">
             <Grid item>
               <AnimateButton>
-                <Tooltip title="Hành động" placement="bottom">
+                <Tooltip title={t('button.title.action')} placement="bottom">
                   <Button color="success" variant="outlined" size="small" onClick={() => handleEditFunction(params.row)}>
                     <IconPlus />
                   </Button>
@@ -72,7 +76,7 @@ const Functions = () => {
             </Grid>
             <Grid item>
               <AnimateButton>
-                <Tooltip title="Chỉnh sửa" placement="bottom">
+                <Tooltip title={t('button.title.edit')} placement="bottom">
                   <Button color="success" variant="outlined" size="small" onClick={() => handleEditFunction(params.row)}>
                     <IconEdit />
                   </Button>
@@ -81,7 +85,7 @@ const Functions = () => {
             </Grid>
             <Grid item>
               <AnimateButton>
-                <Tooltip title="Xóa" placement="bottom">
+                <Tooltip title={t('button.title.delete')} placement="bottom">
                   <Button color="error" variant="outlined" size="small" onClick={() => handleDeleteFunction(params.row)}>
                     <IconTrash />
                   </Button>
@@ -96,15 +100,12 @@ const Functions = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log('ON');
       setPageState((old) => ({ ...old, isLoading: true }));
       const params = createSearchParams(pageState);
-
       const response = await getFunctions(params);
       const check = handleResponseStatus(response, navigate)
       if(check) {
         const data = await response.data;
-        // Assign a unique 'id' property to each row based on 'roleId'
         const dataWithIds = data.map((row, index) => ({
           id: index + 1,
           ...row
@@ -129,7 +130,7 @@ const Functions = () => {
   const handleAddRole = () => {
     setTitle(
       <>
-        <IconUserPlus /> Thêm chức năng{' '}
+        <IconUserPlus /> {t('function.title.add')}
       </>
     );
     setForm('add');
@@ -139,7 +140,7 @@ const Functions = () => {
   const handleEditFunction = (functions) => {
     setTitle(
       <>
-        <IconUserCheck /> Chỉnh sửa chức năng{' '}
+        <IconUserCheck /> {t('function.title.edit')}
       </>
     );
     setForm('edit');
@@ -148,7 +149,7 @@ const Functions = () => {
   };
 
   const handleDeleteFunction = (functions) => {
-    setTitle(<> Xóa chức năng </>);
+    setTitle(<> {t('function.title.delete')} </>);
     setForm('delete');
     dispatch(selectedFunction(functions));
     dispatch(setOpenPopup(true));
@@ -157,40 +158,42 @@ const Functions = () => {
   return (
     <>
       <MainCard
-        title="Chức năng"
-        secondary={<CustomButton handleClick={handleAddRole} icon={IconPlus} label={'Thêm'} title={'Thêm mới'} />}
-      >{isAccess ? (   <DataGrid
-        autoHeight
-        columns={columns}
-        rows={pageState.data}
-        rowCount={pageState.total}
-        loading={pageState.isLoading}
-        rowsPerPageOptions={[5, 10, 25, 50, 100]}
-        pagination
-        page={pageState.startIndex}
-        pageSize={pageState.pageSize}
-        paginationMode="server"
-        onPageChange={(newPage) => {
-          console.log(newPage);
-          setPageState((old) => ({ ...old, startIndex: newPage }));
-        }}
-        onPageSizeChange={(newPageSize) => {
-          console.log(newPageSize);
-          setPageState((old) => ({ ...old, pageSize: newPageSize }));
-        }}
-        onSortModelChange={(newSortModel) => {
-          const field = newSortModel[0]?.field;
-          const sort = newSortModel[0]?.sort;
-          console.log('field: ' + field, 'sort: ' + sort);
-          setPageState((old) => ({ ...old, order: field, orderDir: sort }));
-        }}
-        onFilterModelChange={(newSearchModel) => {
-          const value = newSearchModel.items[0]?.value;
-          console.log(value);
-          setPageState((old) => ({ ...old, search: value }));
-        }}
-        disableSelectionOnClick={true}
-      />) : (<h1>Không có quyền truy cập</h1>)}
+        title={t('function.title')}
+        secondary={<CustomButton handleClick={handleAddRole} icon={IconPlus} label={t('button.label.add')} title={t('button.title.add')} />}
+      >{isAccess ? (   
+        <DataGrid
+          autoHeight
+          columns={columns}
+          rows={pageState.data}
+          rowCount={pageState.total}
+          loading={pageState.isLoading}
+          rowsPerPageOptions={[5, 10, 25, 50, 100]}
+          pagination
+          page={pageState.startIndex}
+          pageSize={pageState.pageSize}
+          paginationMode="server"
+          onPageChange={(newPage) => {
+            // console.log(newPage);
+            setPageState((old) => ({ ...old, startIndex: newPage }));
+          }}
+          onPageSizeChange={(newPageSize) => {
+            // console.log(newPageSize);
+            setPageState((old) => ({ ...old, pageSize: newPageSize }));
+          }}
+          onSortModelChange={(newSortModel) => {
+            const field = newSortModel[0]?.field;
+            const sort = newSortModel[0]?.sort;
+            // console.log('field: ' + field, 'sort: ' + sort);
+            setPageState((old) => ({ ...old, order: field, orderDir: sort }));
+          }}
+          onFilterModelChange={(newSearchModel) => {
+            const value = newSearchModel.items[0]?.value;
+            // console.log(value);
+            setPageState((old) => ({ ...old, search: value }));
+          }}
+          localeText={localeText}
+          disableSelectionOnClick={true}
+        />) : (<h1>Không có quyền truy cập</h1>)}
       </MainCard>
       <Popup title={title} openPopup={openPopup}>
         {form === 'add' ? <Add /> : form === 'edit' ? <Edit /> : <Delete />}

@@ -99,11 +99,9 @@ const TestAPI = () => {
       setPageState((old) => ({ ...old, isLoading: true }));
       const params = await createSearchParams(pageState)
       const response = await getRoles(params);
-
       const check = await handleResponseStatus(response, navigate);
       if(check) {
         const data = await response.data;
-        // Assign a unique 'id' property to each row based on 'roleId'
         const dataWithIds = data.map((row, index) => ({
           id: index + 1,
           ...row
@@ -148,7 +146,7 @@ const TestAPI = () => {
     <>
       <MainCard
         title={t('role.title')}
-        secondary={<CustomButton handleClick={handleAddRole} icon={IconPlus} label={t('button.lable.add')} title={t('button.title.add')}/>}
+        secondary={<CustomButton handleClick={handleAddRole} icon={IconPlus} label={t('button.label.add')} title={t('button.title.add')}/>}
       >
         {isAccess ? (
           <DataGrid

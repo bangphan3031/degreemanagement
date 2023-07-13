@@ -9,9 +9,11 @@ import { showAlert, setOpenPopup, setReloadData } from 'store/actions';
 import { selectedFunctionSelector } from 'store/selectors';
 import AnimateButton from 'components/extended/AnimateButton';
 import InputForm from 'components/form/InputForm';
+import { useTranslation } from 'react-i18next';
 //import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 
 const EditFunction = () => {
+  const { t } = useTranslation()
   const dispatch = useDispatch();
   const selectedFunction = useSelector(selectedFunctionSelector);
   const functionValidationSchema = useFunctionValidationSchema();
@@ -51,30 +53,24 @@ const EditFunction = () => {
       });
     }
   }, [selectedFunction]);
-  // const [selectedActions, setSelectedActions] = useState([]);
-
-  // const updateActionValue = (selectedValues) => {
-  //   setSelectedActions(selectedValues);
-  //   formik.setFieldValue('action', selectedValues.join(','));
-  // };
 
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2} my={2}>
-        <InputForm formik={formik} name='name' label='Tên chức năng' isFirst />
-        <InputForm formik={formik} name='description' label='Mô tả' />
+        <InputForm formik={formik} name='name' label={t('function.input.label.name')} type="text" isFirst />
+        <InputForm formik={formik} name='description' label={t('function.input.label.description')} type="text" />
         <Grid item xs={12} container spacing={3} justifyContent="flex-end" my={2}>
           <Grid item>
             <AnimateButton>
               <Button type="submit" variant="contained" color="primary">
-                Lưu
+                {t('button.save')}
               </Button>
             </AnimateButton>
           </Grid>
           <Grid item>
             <AnimateButton>
               <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
-                Làm mới
+                {t('button.reset')}
               </Button>
             </AnimateButton>
           </Grid>

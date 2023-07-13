@@ -7,7 +7,7 @@ const md5 = require('md5');
 
 export async function sendRequest(url, method, data) {
     try {
-        const user = JSON.parse(localStorage.getItem('user'));
+        const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : '';
         const username = user.username;
         const token = localStorage.getItem('token');
         const body = data == null ? '' : JSON.stringify(data);

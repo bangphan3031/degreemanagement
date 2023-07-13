@@ -1,13 +1,16 @@
 import React from 'react';
 import { Button, Grid } from '@mui/material';
+import MuiTypography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconAlertCircle } from '@tabler/icons';
 import { deleteRole } from 'services/roleService';
 import { setOpenPopup, setReloadData, showAlert } from 'store/actions';
 import { selectedRoleSelector } from 'store/selectors';
 import AnimateButton from 'components/extended/AnimateButton';
+import { useTranslation } from 'react-i18next';
 
 const DeleteUser = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const selectedRole = useSelector(selectedRoleSelector);
 
@@ -34,22 +37,24 @@ const DeleteUser = () => {
   return (
     <div style={{ textAlign: 'center' }}>
       <IconAlertCircle size={100} color="red" />
-      <p>
-        <strong>Bạn chắc chứ?</strong>
-      </p>
-      <p>Bạn sẽ không thể khôi phục!</p>
+      <MuiTypography variant="h4" gutterBottom  m={2}>
+        {t('form.delete.warning1')}
+      </MuiTypography>
+      <MuiTypography variant="body1" gutterBottom>
+        {t('form.delete.warning2')}
+      </MuiTypography>
       <Grid container spacing={1} direction="row" justifyContent="center" my={2}>
         <Grid item>
           <AnimateButton>
             <Button onClick={handleCancelClick} variant="outlined" sx={{ marginRight: '20px' }}>
-              Hủy
+              {t('button.cancel')}
             </Button>
           </AnimateButton>
         </Grid>
         <Grid item>
           <AnimateButton>
             <Button onClick={handleDeleteClick} variant="contained" color="error">
-              Xóa
+              {t('button.canel')}
             </Button>
           </AnimateButton>
         </Grid>

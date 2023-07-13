@@ -37,7 +37,7 @@ const DeleteRole = () => {
   return (
     <div style={{ textAlign: 'center' }}>
       <IconAlertCircle size={100} color='red'/>
-      <MuiTypography variant="h4" gutterBottom>
+      <MuiTypography variant="h4" gutterBottom  m={2}>
         {t('form.delete.warning1')}
       </MuiTypography>
       <MuiTypography variant="body1" gutterBottom>
@@ -47,7 +47,7 @@ const DeleteRole = () => {
         <Grid item>
           <AnimateButton>
             <Button onClick={handleCancelClick} variant="outlined" sx={{marginRight: '20px'}}>
-              {t('button.canel')}
+              {t('button.cancel')}
             </Button>
           </AnimateButton>
         </Grid>

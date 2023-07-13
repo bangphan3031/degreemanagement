@@ -19,8 +19,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSearchParams } from 'utils/createSearchParams';
 import { handleResponseStatus } from 'utils/handleResponseStatus';
 import useLocalText from 'utils/localText';
+import { useTranslation } from 'react-i18next';
 
 const User = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const localeText = useLocalText()
@@ -42,29 +44,29 @@ const User = () => {
   const columns = [
     {
       field: 'rowIndex',
-      headerName: 'STT',
+      headerName: t('serial'),
       width: 70,
       sortable: false,
       filterable: false
     },
     {
       field: 'fullName',
-      headerName: 'Họ và tên',
+      headerName: t('user.field.fullname'),
       flex: 1
     },
     {
       field: 'userName',
-      headerName: 'Tài khoản',
+      headerName: t('user.field.username'),
       flex: 1
     },
     {
       field: 'email',
-      headerName: 'Email',
+      headerName: t('user.field.email'),
       flex: 1
     },
     {
       field: 'actions',
-      headerName: 'Hành động',
+      headerName: t('action'),
       width: 160,
       sortable: false,
       filterable: false,
@@ -73,7 +75,7 @@ const User = () => {
           <Grid container spacing={1} direction="row">
             <Grid item>
               <AnimateButton>
-                <Tooltip title="Chỉnh sửa" placement="bottom">
+                <Tooltip title={t('button.title.edit')} placement="bottom">
                   <Button color="success" variant="outlined" size="small" onClick={() => handleEditUser(params.row)}>
                     <IconEdit />
                   </Button>
@@ -82,7 +84,7 @@ const User = () => {
             </Grid>
             <Grid item>
               <AnimateButton>
-                <Tooltip title="Xóa" placement="bottom">
+                <Tooltip title={t('button.title.delete')} placement="bottom">
                   <Button color="error" variant="outlined" size="small" onClick={() => handleDeleteRole(params.row)}>
                     <IconTrash />
                   </Button>
@@ -100,9 +102,6 @@ const User = () => {
       setPageState((old) => ({ ...old, isLoading: true }));
       const params = await createSearchParams(pageState);
       const response = await getUsers(params);
-      console.log(response);
-      console.log(columns)
-
       const check = await handleResponseStatus(response, navigate);
       if (check) {
         const data = await response.data;
@@ -110,17 +109,13 @@ const User = () => {
           id: index + 1,
           ...row
         }));
-        console.log(data)
-
         dispatch(setReloadData(false));
-
         setPageState((old) => ({
           ...old,
           isLoading: false,
           data: dataWithIds,
           total: dataWithIds[0]?.totalRow || 0
         }));
-        console.log(isAccess)
       } else {
         setIsAccess(false);
       }
@@ -131,7 +126,7 @@ const User = () => {
   const handleAddUser = () => {
     setTitle(
       <>
-        <IconUserPlus /> Thêm người dùng{' '}
+        <IconUserPlus /> {t('user.title.add')}
       </>
     );
     setForm('add');
@@ -140,7 +135,7 @@ const User = () => {
   const handleEditUser = (user) => {
     setTitle(
       <>
-        <IconUserCheck /> Chỉnh sửa người dùng{' '}
+        <IconUserCheck /> {t('user.title.edit')}
       </>
     );
     setForm('edit');
@@ -149,18 +144,17 @@ const User = () => {
   };
 
   const handleDeleteRole = (role) => {
-    setTitle(<> Xóa người dùng </>);
+    setTitle(<> {t('user.title.delete')} </>);
     setForm('delete');
     dispatch(selectedRole(role));
     dispatch(setOpenPopup(true));
   };
-console.log(pageState.total)
 
   return (
     <>
       <MainCard
-        title="Người dùng"
-        secondary={<CustomButton handleClick={handleAddUser} icon={IconPlus} label={'Thêm'} title={'Thêm mới'} />}
+        title={t('user.title')}
+        secondary={<CustomButton handleClick={handleAddUser} icon={IconPlus} label={t('button.label.add')} title={t('button.title.add')} />}
       >
         {isAccess ? (
           <DataGrid
@@ -195,7 +189,6 @@ console.log(pageState.total)
         ) : (
           <h1> Bạn không có quyền truy cập</h1>
         )}
-        <h1>abcd</h1>
       </MainCard>
       <Popup title={title} openPopup={openPopup} maxWidth={'md'}>
         {form === 'add' ? <Add /> : form === 'edit' ? <Edit /> : <Delete />}

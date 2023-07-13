@@ -42,51 +42,19 @@ const AddRole = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2} my={1}>
-        {/* <Grid item xs={12}>
-          <FormControl fullWidth sx={{mt: 2}}>
-            <InputLabel htmlFor="name-input">{t('role.input.lable.name')}</InputLabel>
-            <Input
-              id="name-input"
-              name="name"
-              fullWidth={true}
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-            /> 
-            <FormHelperText error={Boolean(formik.errors.name)}>
-              {formik.touched.name && formik.errors.name}
-            </FormHelperText>
-          </FormControl>
-          <Grid container spacing={1} direction="row" my={2}>
-            <Grid item>
-              <AnimateButton>
-                <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
-                  {t('button.reset')}
-                </Button>
-              </AnimateButton>
-            </Grid>
-            <Grid item sx={{ ml: 'auto' }}>
-              <AnimateButton>
-                <Button type="submit" variant="contained" color="primary">
-                  {t('button.save')}
-                </Button>
-              </AnimateButton>
-            </Grid>
-          </Grid>
-        </Grid> */}
-        <InputForm formik={formik} name='name' label={t('role.input.lable.name')} type='text' isFirst />
+        <InputForm formik={formik} name='name' label={t('role.input.label.name')} type='text' isFirst />
         <Grid item xs={12} container spacing={3} justifyContent="flex-end" my={2}>
           <Grid item>
             <AnimateButton>
               <Button type="submit" variant="contained" color="primary">
-                Lưu
+                {t('button.save')}
               </Button>
             </AnimateButton>
           </Grid>
           <Grid item>
             <AnimateButton>
               <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
-                Làm mới
+                {t('button.reset')}
               </Button>
             </AnimateButton>
           </Grid>

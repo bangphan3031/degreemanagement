@@ -15,7 +15,7 @@ const FooterWrapper = styled('footer')(({ theme }) => ({
 
 const Footer = () => {
   return (
-    <FooterWrapper sx={{marginRight: '40px'}}>
+    <FooterWrapper sx={{mr: '40px', ml:'40px'}}>
       <footer style={{ display: 'flex', justifyContent: 'space-between', height: '30px' }}>
         <span>&copy; berrydashboard.io</span>
         <a

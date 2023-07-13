@@ -10,25 +10,28 @@
     "login.register": "Don't have an account?",
     "login.remember": "Remember me",
     "login.forgotpass": "Forgot password?",
-    "login.input.lable.username": "Username",
-    "login.input.lable.password": "Password",
-
-    "validattion.role.name": "Role name is required",
+    "login.input.label.username": "Username",
+    "login.input.label.password": "Password",
 
     "validattion.user.fullname": "Fullname is required",
     "validattion.user.name": "Username is required",
     "validattion.user.password": "Password is required",
 
+    "validattion.role.name": "Role name is required",
+
+    "validattion.function.name": "Function name is required",
+
     "serial": "Index",
     "action": "Action",
     "button.save": "Save",
-    "button.lable.add": "Add",
+    "button.label.add": "Add",
     "button.title.add": "Add new",
     "button.title.edit": "Edit",
     "button.title.delete": "Delete",
+    "button.title.action": "Action",
     "button.reset": "Clear",
     "button.close": "Close",
-    "button.canel": "Cancel",
+    "button.cancel": "Cancel",
     "button.delete": "Delete",
     "button.login": "Login",
     "button.logout": "Logout",
@@ -36,11 +39,33 @@
     "form.delete.warning1": "Are you sure?",
     "form.delete.warning2": "Data will not be recoverable!",
 
+    "user.title": "Users",
+    "user.title.add": "Add user",
+    "user.title.edit": "Edit user",
+    "user.title.delete": "Delete user",
+    "user.field.fullname": "Full name",
+    "user.field.username": "User name",
+    "user.field.email": "Email",
+    "user.input.label.fullname": "Full name",
+    "user.input.label.username": "User name",
+    "user.input.label.password": "Password",
+    "user.input.label.email": "Email",
+    "user.input.label.roles": "Roles",
+
+    "function.title": "Function",
+    "function.title.add": "Add function",
+    "function.title.edit": "Edit function",
+    "function.title.delete": "Delete function",
+    "function.field.name": "Function name",
+    "function.field.description": "Description",
+    "function.input.label.name": "Function name",
+    "function.input.label.description": "Description",
+
     "role.title": "Roles",
     "role.title.add": "Add role",
     "role.title.edit": "Edit role",
     "role.title.delete": "Delete role",
     "role.field.name": "Role name",
-    "role.input.lable.name": "Role name"
+    "role.input.label.name": "Role name"
 
 }

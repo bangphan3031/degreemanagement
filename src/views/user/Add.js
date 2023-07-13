@@ -14,8 +14,10 @@ import MultiSelectForm from 'components/form/MultiSelectForm';
 
 import { getRoles } from 'services/roleService';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const AddUser = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const userValidationSchema = useUserValidationSchema();
   const [roles, setRoles] = useState([]);
@@ -72,11 +74,11 @@ const AddUser = () => {
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2} my={1}>
         <Grid item xs={7}>
-          <InputForm formik={formik} name="fullName" label="Họ và tên" type="text" isFirst />
-          <InputForm formik={formik} name="userName" label="Tên tài khoản" type="text" />
-          <InputForm formik={formik} name="password" label="Mật khẩu" type="password" />
-          <InputForm formik={formik} name="email" label="Email" type="mail" />
-          <MultiSelectForm data={roles} name="roles" label="Nhóm quyền" formik={formik} />
+          <InputForm formik={formik} name="fullName" label={t('user.input.label.fullname')} type="text" isFirst />
+          <InputForm formik={formik} name="userName" label={t('user.input.label.username')} type="text" />
+          <InputForm formik={formik} name="password" label={t('user.input.label.password')} type="password" />
+          <InputForm formik={formik} name="email" label={t('user.input.label.email')} type="mail" />
+          <MultiSelectForm data={roles} name="roles" label={t('user.input.label.roles')} formik={formik} />
         </Grid>
         <Grid item xs={5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <FormImage />
@@ -85,14 +87,14 @@ const AddUser = () => {
           <Grid item>
             <AnimateButton>
               <Button type="submit" variant="contained" color="primary">
-                Lưu
+                {t('button.save')}
               </Button>
             </AnimateButton>
           </Grid>
           <Grid item>
             <AnimateButton>
               <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
-                Làm mới
+                {t('button.reset')}
               </Button>
             </AnimateButton>
           </Grid>

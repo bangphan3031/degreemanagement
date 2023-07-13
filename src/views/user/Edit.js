@@ -9,8 +9,10 @@ import { selectedUserSelector } from 'store/selectors';
 import AnimateButton from 'components/extended/AnimateButton';
 import InputForm from 'components/form/InputForm';
 import FormImage from 'components/form/ImageForm';
+import { useTranslation } from 'react-i18next';
 
 const EditUser = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const userValidationSchema = useUserValidationSchema();
   const selectedUser = useSelector(selectedUserSelector);
@@ -58,9 +60,9 @@ const EditUser = () => {
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2} my={1}>
         <Grid item xs={7}>
-          <InputForm formik={formik} name="userName" label="Tên tài khoản" type="text" isFirst isDisabled />
-          <InputForm formik={formik} name="fullName" label="Họ và tên" type="text" />
-          <InputForm formik={formik} name="email" label="Email" type="mail" />
+          <InputForm formik={formik} name="userName" label={t('user.input.label.username')} type="text" isFirst isDisabled />
+          <InputForm formik={formik} name="fullName" label={t('user.input.label.fullname')} type="text" />
+          <InputForm formik={formik} name="email" label={t('user.input.label.email')} type="mail" />
         </Grid>
         <Grid item xs={5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <FormImage />
@@ -69,14 +71,14 @@ const EditUser = () => {
           <Grid item>
             <AnimateButton>
               <Button type="submit" variant="contained" color="primary">
-                Lưu
+                {t('button.save')}
               </Button>
             </AnimateButton>
           </Grid>
           <Grid item>
             <AnimateButton>
               <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
-                Làm mới
+                {t('button.reset')}
               </Button>
             </AnimateButton>
           </Grid>
