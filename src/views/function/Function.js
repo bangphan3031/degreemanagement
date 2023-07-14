@@ -10,14 +10,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setOpenPopup, setReloadData, selectedFunction } from 'store/actions';
 import { openPopupSelector, reloadDataSelector } from 'store/selectors';
 import { getFunctions } from 'services/functionService';
-import { createSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { handleResponseStatus } from 'utils/handleResponseStatus';
 import { useTranslation } from 'react-i18next';
 import useLocalText from 'utils/localText';
 import ActionButtons from 'components/button/ActionButtons';
 import AddButton from 'components/button/AddButton';
+import Action from './Action';
+import { createSearchParams } from 'utils/createSearchParams';
+import i18n from 'i18n';
 
 const Functions = () => {
+  const language = i18n.language;
   const { t } = useTranslation();
   const localeText = useLocalText()
   const dispatch = useDispatch();
@@ -63,7 +67,7 @@ const Functions = () => {
       filterable: false,
       renderCell: (params) => (
         <>
-          <ActionButtons type="add" handleAdd={handleEditFunction} params={params.row} />
+          <ActionButtons type="add" handleAdd={handleAddAction} params={params.row} />
           <ActionButtons type="edit" handleEdit={handleEditFunction} params={params.row} />
           <ActionButtons type="delete" handleDelete={handleDeleteFunction} params={params.row} />
         </>
@@ -74,7 +78,7 @@ const Functions = () => {
   useEffect(() => {
     const fetchData = async () => {
       setPageState((old) => ({ ...old, isLoading: true }));
-      const params = createSearchParams(pageState);
+      const params = await createSearchParams(pageState);
       const response = await getFunctions(params);
       const check = handleResponseStatus(response, navigate)
       if(check) {
@@ -101,21 +105,20 @@ const Functions = () => {
   }, [pageState.search, pageState.order, pageState.orderDir, pageState.startIndex, pageState.pageSize, reloadData]);
 
   const handleAddRole = () => {
-    setTitle(
-      <>
-        <IconUserPlus /> {t('function.title.add')}
-      </>
-    );
+    setTitle(<> <IconUserPlus /> {t('function.title.add')} </>);
     setForm('add');
     dispatch(setOpenPopup(true));
   };
 
+  const handleAddAction= (functions) => {
+    setTitle(<> {t('function.title.add')} </>);
+    setForm('action');
+    dispatch(selectedFunction(functions));
+    dispatch(setOpenPopup(true));
+  };
+
   const handleEditFunction = (functions) => {
-    setTitle(
-      <>
-        <IconUserCheck /> {t('function.title.edit')}
-      </>
-    );
+    setTitle(<> <IconUserCheck /> {t('function.title.edit')} </>);
     setForm('edit');
     dispatch(selectedFunction(functions));
     dispatch(setOpenPopup(true));
@@ -146,30 +149,26 @@ const Functions = () => {
           pageSize={pageState.pageSize}
           paginationMode="server"
           onPageChange={(newPage) => {
-            // console.log(newPage);
             setPageState((old) => ({ ...old, startIndex: newPage }));
           }}
           onPageSizeChange={(newPageSize) => {
-            // console.log(newPageSize);
             setPageState((old) => ({ ...old, pageSize: newPageSize }));
           }}
           onSortModelChange={(newSortModel) => {
             const field = newSortModel[0]?.field;
             const sort = newSortModel[0]?.sort;
-            // console.log('field: ' + field, 'sort: ' + sort);
             setPageState((old) => ({ ...old, order: field, orderDir: sort }));
           }}
           onFilterModelChange={(newSearchModel) => {
             const value = newSearchModel.items[0]?.value;
-            // console.log(value);
             setPageState((old) => ({ ...old, search: value }));
           }}
-          localeText={localeText}
+          localeText={language === 'vi' ? localeText : null}
           disableSelectionOnClick={true}
         />) : (<h1>Không có quyền truy cập</h1>)}
       </MainCard>
-      <Popup title={title} openPopup={openPopup} bgcolor={form === 'delete' ? '#F44336' : '#2196F3'}>
-        {form === 'add' ? <Add /> : form === 'edit' ? <Edit /> : <Delete />}
+      <Popup title={title} openPopup={openPopup} maxWidth={'md'} bgcolor={form === 'delete' ? '#F44336' : '#2196F3'}>
+        {form === 'add' ? <Add /> : form === 'edit' ? <Edit /> : form === 'action' ? <Action /> : <Delete />}
       </Popup>
     </>
   );

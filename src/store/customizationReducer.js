@@ -16,6 +16,7 @@ export const initialState = {
   selectedRole: '',
   selectedFunction: '',
   openPopup: false,
+  openSubPopup: false,
   showAlert: false,
   alertId: null,
   alertType: '',
@@ -130,6 +131,11 @@ const customizationReducer = (state = initialState, action) => {
       return {
         ...state,
         openPopup: action.openPopup
+      };
+    case actionTypes.SUB_POPUP_OPEN:
+      return {
+        ...state,
+        openSubPopup: action.openSubPopup
       };
     case actionTypes.RELOAD_DATA:
       return {

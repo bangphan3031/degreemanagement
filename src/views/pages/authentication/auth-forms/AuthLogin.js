@@ -22,7 +22,6 @@ import {
 } from '@mui/material';
 
 // third party
-import * as Yup from 'yup';
 import { Formik } from 'formik';
 
 // project imports
@@ -39,24 +38,19 @@ import Alert from 'components/controls/alert';
 import { showAlert } from 'store/actions';
 import { showAlertSelector } from 'store/selectors';
 import { useTranslation } from 'react-i18next';
+import useLoginValidationSchema from 'components/validations/loginValidation';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
   const { t } = useTranslation()
+  const loginValidationSchema = useLoginValidationSchema();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
   const scriptedRef = useScriptRef();
-  // const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-  // const customization = useSelector((state) => state.customization);
   const [checked, setChecked] = useState(true);
   const showAlertlogin = useSelector(showAlertSelector);
-
-  // const googleHandler = async () => {
-  //   console.error('Login');
-  // };
-
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -74,10 +68,7 @@ const FirebaseLogin = ({ ...others }) => {
           password: '',
           submit: null
         }}
-        validationSchema={Yup.object().shape({
-          username: Yup.string().max(255).required('User name is required'),
-          password: Yup.string().max(255).required('Password is required')
-        })}
+        validationSchema={loginValidationSchema}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             const loggedInUser = await login(values);

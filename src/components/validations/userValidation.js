@@ -6,7 +6,7 @@ export const useUserValidationSchema = () => {
 
   const userValidationSchema = Yup.object({
     fullName: Yup.string().max(255).required(t('validattion.user.fullname')),
-    userName: Yup.string().max(255).required(t('validattion.user.name')),
+    userName: Yup.string().max(255).required(t('validattion.user.username')),
     password: Yup.string().max(255).required(t('validattion.user.password'))
   });
 

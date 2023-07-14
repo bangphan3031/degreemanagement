@@ -14,7 +14,7 @@
     "login.input.label.password": "Mật khẩu",
 
     "validattion.user.fullname": "Họ tên không được để trống",
-    "validattion.user.name": "Tên người dùng không được để trống",
+    "validattion.user.username": "Tên đăng nhập không được để trống",
     "validattion.user.password": "Mật khẩu không được để trống",
 
     "validattion.role.name": "Tên nhóm quyền không được để trống",

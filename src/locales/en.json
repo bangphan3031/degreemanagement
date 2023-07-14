@@ -14,7 +14,7 @@
     "login.input.label.password": "Password",
 
     "validattion.user.fullname": "Fullname is required",
-    "validattion.user.name": "Username is required",
+    "validattion.user.username": "Username is required",
     "validattion.user.password": "Password is required",
 
     "validattion.role.name": "Role name is required",

@@ -16,7 +16,7 @@ i18n
         translation: viTranslation
       }
     },
-    lng: 'vi', // Ngôn ngữ mặc định
+    lng: 'en', // Ngôn ngữ mặc định
     fallbackLng: 'en', // Ngôn ngữ dự phòng nếu không tìm thấy ngôn ngữ được yêu cầu
     interpolation: {
       escapeValue: false // Cho phép sử dụng các biểu thức trong các chuỗi dịch

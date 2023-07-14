@@ -19,8 +19,10 @@ import useLocalText from 'utils/localText';
 import { useTranslation } from 'react-i18next';
 import ActionButtons from 'components/button/ActionButtons';
 import AddButton from 'components/button/AddButton';
+import i18n from 'i18n';
 
 const User = () => {
+  const language = i18n.language;
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -164,7 +166,7 @@ const User = () => {
               const value = newSearchModel.items[0]?.value;
               setPageState((old) => ({ ...old, search: value }));
             }}
-            localeText={localeText}
+            localeText={language === 'vi' ? localeText : null}
             disableSelectionOnClick={true}
           />
         ) : (

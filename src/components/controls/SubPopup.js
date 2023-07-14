@@ -1,8 +1,9 @@
 import { Dialog, DialogContent, DialogTitle, Slide, IconButton, Tooltip, Grid } from '@mui/material';
 import { forwardRef } from 'react';
+// import MuiTypography from '@mui/material/Typography';
 import { IconX } from '@tabler/icons';
 import AnimateButton from 'components/extended/AnimateButton';
-import { setOpenPopup } from '../../store/actions';
+import { setOpenSubPopup } from '../../store/actions';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -10,19 +11,19 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} timeout={700} />;
 });
 
-export default function Popup(props) {
+export default function SubPopup(props) {
   const { t } = useTranslation()
-  const { title, children, openPopup, maxWidth, bgcolor } = props;
+  const { title, children, openSubPopup, maxWidth, bgcolor } = props;
   const dispatch = useDispatch();
 
   const handleCloseClick = () => {
-    dispatch(setOpenPopup(false));
+    dispatch(setOpenSubPopup(false));
   };
 
   return (
     <div>
       <Dialog
-        open={openPopup}
+        open={openSubPopup}
         TransitionComponent={Transition}
         keepMounted
         fullWidth= {true}

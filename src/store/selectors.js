@@ -3,6 +3,7 @@ export const rolesSelector = (state) => state.customization.roles;
 export const selectedUserSelector = (state) => state.customization.selectedUser;
 export const selectedRoleSelector = (state) => state.customization.selectedRole;
 export const openPopupSelector = (state) => state.customization.openPopup;
+export const openSubPopupSelector = (state) => state.customization.openSubPopup;
 export const showAlertSelector = (state) => state.customization.showAlert;
 export const reloadDataSelector = (state) => state.customization.reloadData;
 export const alertIdSelector = (state) => state.customization.alertId;
