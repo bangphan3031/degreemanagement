@@ -21,7 +21,8 @@ export const initialState = {
   alertType: '',
   alertContent: '',
   reloadData: false,
-  menu: []
+  menu: [],
+  selectedLanguage: 'vi'
 };
 
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //
@@ -114,6 +115,11 @@ const customizationReducer = (state = initialState, action) => {
       return {
         ...state,
         selectedFunction: action.selectedFunction
+      };
+    case actionTypes.SELECTED_LANGUAGE:
+      return {
+        ...state,
+        selectedLanguage: action.selectedLanguage
       };
     case actionTypes.SELECTED_ROLE:
       return {

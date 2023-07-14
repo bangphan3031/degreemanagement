@@ -52,10 +52,6 @@ const EditRole = () => {
     }
   }, [selectedRole]);
 
-  const handleCancelClick = () => {
-    dispatch(setOpenPopup(false));
-  }
-
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2} my={2}>
@@ -65,7 +61,7 @@ const EditRole = () => {
             <SaveButton />
           </Grid>
           <Grid item>
-            <ResetButton handleClick={handleCancelClick}/>
+            <ResetButton />
           </Grid>
         </Grid>
       </Grid>

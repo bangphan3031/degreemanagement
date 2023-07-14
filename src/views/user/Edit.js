@@ -46,10 +46,6 @@ const EditUser = () => {
     }
   });
 
-  const handleCancelClick = () => {
-    dispatch(setOpenPopup(false));
-  }
-
   useEffect(() => {
     if (selectedUser) {
       formik.setValues({
@@ -77,7 +73,7 @@ const EditUser = () => {
             <SaveButton />
           </Grid>
           <Grid item>
-            <ExitButton handleClick={handleCancelClick}/>
+            <ExitButton />
           </Grid>
         </Grid>
       </Grid>

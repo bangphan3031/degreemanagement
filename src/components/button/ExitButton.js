@@ -3,16 +3,23 @@ import { Grid, Button, Tooltip } from '@mui/material';
 import AnimateButton from 'components/extended/AnimateButton';
 import { useTranslation } from 'react-i18next';
 import { IconX } from '@tabler/icons';
+import { setOpenPopup } from 'store/actions';
+import { useDispatch } from 'react-redux';
 
-const ResetButton = ({ handleClick }) => {
+const ResetButton = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+
+  const handleCancelClick = () => {
+    dispatch(setOpenPopup(false));
+  }
 
   return (
     <Grid container spacing={2} alignItems="center">
       <Grid item xs={12}>
         <AnimateButton>
           <Tooltip title={t('button.exit')} placement="bottom">
-            <Button color="error" variant="contained" size="medium" onClick={handleClick}>
+            <Button color="error" variant="contained" size="medium" onClick={handleCancelClick}>
                 <IconX /> {t('button.exit')}
             </Button>
           </Tooltip>

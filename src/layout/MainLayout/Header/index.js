@@ -8,6 +8,7 @@ import { Avatar, Box, ButtonBase } from '@mui/material';
 import LogoSection from '../LogoSection';
 // import SearchSection from './SearchSection';
 import ProfileSection from './ProfileSection';
+// import LanguageSetting from './LanguageSetting';
 
 // assets
 import { IconMenu2 } from '@tabler/icons';
@@ -53,13 +54,8 @@ const Header = ({ handleLeftDrawerToggle }) => {
           </Avatar>
         </ButtonBase>
       </Box>
-
-      {/* header search */}
-      {/* <SearchSection /> */}
       <Box sx={{ flexGrow: 1 }} />
-      <Box sx={{ flexGrow: 1 }} />
-
-      {/* notification & profile */}
+      {/* <LanguageSetting />  */}
       <ProfileSection />
     </>
   );

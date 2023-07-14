@@ -70,11 +70,7 @@ const AddUser = () => {
       }
     }
   });
-
-  const handleCancelClick = () => {
-    dispatch(setOpenPopup(false));
-  }
-
+  
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2} my={1}>
@@ -93,7 +89,7 @@ const AddUser = () => {
             <SaveButton />
           </Grid>
           <Grid item>
-            <ExitButton handleClick={handleCancelClick}/>
+            <ExitButton />
           </Grid>
         </Grid>
       </Grid>

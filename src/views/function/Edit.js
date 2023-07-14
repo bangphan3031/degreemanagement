@@ -54,10 +54,6 @@ const EditFunction = () => {
     }
   }, [selectedFunction]);
 
-  const handleCancelClick = () => {
-    dispatch(setOpenPopup(false));
-  }
-
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2} my={2}>
@@ -68,7 +64,7 @@ const EditFunction = () => {
             <SaveButton />
           </Grid>
           <Grid item>
-            <ExitButton handleClick={handleCancelClick}/>
+            <ExitButton />
           </Grid>
         </Grid>
       </Grid>

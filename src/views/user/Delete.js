@@ -15,10 +15,6 @@ const DeleteUser = () => {
   const dispatch = useDispatch();
   const selectedRole = useSelector(selectedRoleSelector);
 
-  const handleCancelClick = () => {
-    dispatch(setOpenPopup(false));
-  };
-
   const handleDeleteClick = async () => {
     try {
       dispatch(setOpenPopup(false));
@@ -49,7 +45,7 @@ const DeleteUser = () => {
           <YesButton handleClick={handleDeleteClick}/>
         </Grid>
         <Grid item>
-          <NoButton handleClick={handleCancelClick}/>
+          <NoButton />
         </Grid>
       </Grid>
     </div>

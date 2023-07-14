@@ -2,18 +2,18 @@ import React from 'react';
 import { Grid, Button, Tooltip } from '@mui/material';
 import AnimateButton from 'components/extended/AnimateButton';
 import { useTranslation } from 'react-i18next';
-import { IconX } from '@tabler/icons';
+import { IconPlus } from '@tabler/icons';
 
-const DeleteButton = ({ handleClick }) => {
+const AddButton = ({ handleClick }) => {
   const { t } = useTranslation();
 
   return (
     <Grid container spacing={2} alignItems="center">
       <Grid item xs={12}>
         <AnimateButton>
-          <Tooltip title={t('button.delete')} placement="bottom">
-            <Button color="error" variant="outlined" size="medium" onClick={handleClick}>
-                <IconX /> {t('button.delete')}
+          <Tooltip title={t('button.title.add')} placement="bottom">
+            <Button color="info" variant="outlined" size="medium" onClick={handleClick}>
+                <IconPlus /> {t('button.label.add')}
             </Button>
           </Tooltip>
         </AnimateButton>
@@ -22,4 +22,4 @@ const DeleteButton = ({ handleClick }) => {
   );
 };
 
-export default DeleteButton;
+export default AddButton;

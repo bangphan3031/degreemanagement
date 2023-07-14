@@ -1,6 +1,4 @@
 import { DataGrid } from '@mui/x-data-grid';
-import { IconEdit, IconPlus, IconTrash } from '@tabler/icons';
-import CustomButton from 'components/button/CustomButton';
 import MainCard from 'components/cards/MainCard';
 import Popup from 'components/controls/popup';
 import { useEffect, useState } from 'react';
@@ -11,12 +9,12 @@ import Add from '../role/AddRole';
 import Edit from '../role/EditRole';
 import Delete from '../role/DeleteRole';
 import { getRoles } from 'services/roleService';
-import { Button, Grid, Tooltip } from '@mui/material';
-import AnimateButton from 'components/extended/AnimateButton';
 import { useTranslation } from 'react-i18next';
 import useLocalText from 'utils/localText';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { handleResponseStatus } from 'utils/handleResponseStatus';
+import ActionButtons from 'components/button/ActionButtons';
+import AddButton from 'components/button/AddButton';
 
 const TestAPI = () => {
   const navigate = useNavigate()
@@ -59,36 +57,8 @@ const TestAPI = () => {
       filterable: false,
       renderCell: (params) => (
         <>
-          <Grid container spacing={1} direction="row">
-            <Grid item>
-              <AnimateButton>
-                <Tooltip title={t('button.title.edit')} placement="bottom">
-                  <Button
-                    color="success"
-                    variant="outlined"
-                    size="small"
-                    onClick={() => handleEditRole(params.row)}
-                  >
-                    <IconEdit />
-                  </Button>
-                </Tooltip>
-              </AnimateButton>
-            </Grid>
-            <Grid item>
-              <AnimateButton>
-                <Tooltip title={t('button.title.delete')} placement="bottom">
-                  <Button
-                    color="error"
-                    variant="outlined"
-                    size="small"
-                    onClick={() => handleDeleteRole(params.row)}
-                  >
-                    <IconTrash />
-                  </Button>
-                </Tooltip>
-              </AnimateButton>
-            </Grid>
-          </Grid>
+          <ActionButtons type="edit" handleEdit={handleEditRole} params={params.row} />
+          <ActionButtons type="delete" handleDelete={handleDeleteRole} params={params.row} />
         </>
       ),      
     },
@@ -146,7 +116,7 @@ const TestAPI = () => {
     <>
       <MainCard
         title={t('role.title')}
-        secondary={<CustomButton handleClick={handleAddRole} icon={IconPlus} label={t('button.label.add')} title={t('button.title.add')}/>}
+        secondary={<AddButton handleClick={handleAddRole}/>}
       >
         {isAccess ? (
           <DataGrid

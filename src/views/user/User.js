@@ -1,6 +1,5 @@
 import { DataGrid } from '@mui/x-data-grid';
-import { IconEdit, IconPlus, IconTrash, IconUserCheck, IconUserPlus } from '@tabler/icons';
-import CustomButton from 'components/button/CustomButton';
+import { IconUserCheck, IconUserPlus } from '@tabler/icons';
 import MainCard from 'components/cards/MainCard';
 import { useNavigate } from 'react-router';
 
@@ -12,14 +11,14 @@ import Add from '../user/Add';
 import Edit from '../user/Edit';
 import Delete from '../user/Delete';
 import { getUsers } from 'services/userService';
-import { Button, Grid, Tooltip } from '@mui/material';
-import AnimateButton from 'components/extended/AnimateButton';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSearchParams } from 'utils/createSearchParams';
 import { handleResponseStatus } from 'utils/handleResponseStatus';
 import useLocalText from 'utils/localText';
 import { useTranslation } from 'react-i18next';
+import ActionButtons from 'components/button/ActionButtons';
+import AddButton from 'components/button/AddButton';
 
 const User = () => {
   const { t } = useTranslation();
@@ -72,26 +71,8 @@ const User = () => {
       filterable: false,
       renderCell: (params) => ( 
         <>
-          <Grid container spacing={1} direction="row">
-            <Grid item>
-              <AnimateButton>
-                <Tooltip title={t('button.title.edit')} placement="bottom">
-                  <Button color="success" variant="outlined" size="small" onClick={() => handleEditUser(params.row)}>
-                    <IconEdit />
-                  </Button>
-                </Tooltip>
-              </AnimateButton>
-            </Grid>
-            <Grid item>
-              <AnimateButton>
-                <Tooltip title={t('button.title.delete')} placement="bottom">
-                  <Button color="error" variant="outlined" size="small" onClick={() => handleDeleteRole(params.row)}>
-                    <IconTrash />
-                  </Button>
-                </Tooltip>
-              </AnimateButton>
-            </Grid>
-          </Grid>
+          <ActionButtons type="edit" handleEdit={handleEditUser} params={params.row} />
+          <ActionButtons type="delete" handleDelete={handleDeleteUser} params={params.row} />
         </>
       )
     }
@@ -143,7 +124,7 @@ const User = () => {
     dispatch(setOpenPopup(true));
   };
 
-  const handleDeleteRole = (role) => {
+  const handleDeleteUser = (role) => {
     setTitle(<> {t('user.title.delete')} </>);
     setForm('delete');
     dispatch(selectedRole(role));
@@ -154,7 +135,7 @@ const User = () => {
     <>
       <MainCard
         title={t('user.title')}
-        secondary={<CustomButton handleClick={handleAddUser} icon={IconPlus} label={t('button.label.add')} title={t('button.title.add')} />}
+        secondary={<AddButton handleClick={handleAddUser} />}
       >
         {isAccess ? (
           <DataGrid

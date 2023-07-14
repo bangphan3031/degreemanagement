@@ -1,6 +1,5 @@
 import { DataGrid } from '@mui/x-data-grid';
-import { IconEdit, IconPlus, IconTrash, IconUserCheck, IconUserPlus } from '@tabler/icons';
-import CustomButton from 'components/button/CustomButton';
+import { IconUserCheck, IconUserPlus } from '@tabler/icons';
 import MainCard from 'components/cards/MainCard';
 import Popup from 'components/controls/popup';
 import Add from './Add';
@@ -10,13 +9,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOpenPopup, setReloadData, selectedFunction } from 'store/actions';
 import { openPopupSelector, reloadDataSelector } from 'store/selectors';
-import { Button, Grid, Tooltip } from '@mui/material';
-import AnimateButton from 'components/extended/AnimateButton';
 import { getFunctions } from 'services/functionService';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { handleResponseStatus } from 'utils/handleResponseStatus';
 import { useTranslation } from 'react-i18next';
 import useLocalText from 'utils/localText';
+import ActionButtons from 'components/button/ActionButtons';
+import AddButton from 'components/button/AddButton';
 
 const Functions = () => {
   const { t } = useTranslation();
@@ -64,35 +63,9 @@ const Functions = () => {
       filterable: false,
       renderCell: (params) => (
         <>
-          <Grid container spacing={1} direction="row">
-            <Grid item>
-              <AnimateButton>
-                <Tooltip title={t('button.title.action')} placement="bottom">
-                  <Button color="success" variant="outlined" size="small" onClick={() => handleEditFunction(params.row)}>
-                    <IconPlus />
-                  </Button>
-                </Tooltip>
-              </AnimateButton>
-            </Grid>
-            <Grid item>
-              <AnimateButton>
-                <Tooltip title={t('button.title.edit')} placement="bottom">
-                  <Button color="success" variant="outlined" size="small" onClick={() => handleEditFunction(params.row)}>
-                    <IconEdit />
-                  </Button>
-                </Tooltip>
-              </AnimateButton>
-            </Grid>
-            <Grid item>
-              <AnimateButton>
-                <Tooltip title={t('button.title.delete')} placement="bottom">
-                  <Button color="error" variant="outlined" size="small" onClick={() => handleDeleteFunction(params.row)}>
-                    <IconTrash />
-                  </Button>
-                </Tooltip>
-              </AnimateButton>
-            </Grid>
-          </Grid>
+          <ActionButtons type="add" handleAdd={handleEditFunction} params={params.row} />
+          <ActionButtons type="edit" handleEdit={handleEditFunction} params={params.row} />
+          <ActionButtons type="delete" handleDelete={handleDeleteFunction} params={params.row} />
         </>
       )
     }
@@ -159,7 +132,7 @@ const Functions = () => {
     <>
       <MainCard
         title={t('function.title')}
-        secondary={<CustomButton handleClick={handleAddRole} icon={IconPlus} label={t('button.label.add')} title={t('button.title.add')} />}
+        secondary={<AddButton handleClick={handleAddRole} />}
       >{isAccess ? (   
         <DataGrid
           autoHeight
