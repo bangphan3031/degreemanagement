@@ -2,6 +2,8 @@
     "homePage.title": "Trang chủ",
     "homePage.welcomeMessage": "Chào mừng đến với trang chủ!",
 
+    "not.allow.access": "Bạn không có quyền truy cập",
+
     "user.hello": "Xin chào,",
     "user.changepass": "Đổi mật khẩu",
     "user.profile": "Thông tin cá nhân",

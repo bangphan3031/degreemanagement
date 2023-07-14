@@ -2,6 +2,8 @@
     "homePage.title": "Home",
     "homePage.welcomeMessage": "Welcome to the home page!",
 
+    "not.allow.access": "You do not have access",
+
     "user.hello": "Hello,",
     "user.changepass": "Change password",
     "user.profile": "Profile",

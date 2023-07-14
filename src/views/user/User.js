@@ -170,7 +170,7 @@ const User = () => {
             disableSelectionOnClick={true}
           />
         ) : (
-          <h1> Bạn không có quyền truy cập</h1>
+          <h1>{t('not.allow.access')}</h1>
         )}
       </MainCard>
       <Popup title={title} openPopup={openPopup} bgcolor={form === 'delete' ? '#F44336' : '#2196F3'}>
