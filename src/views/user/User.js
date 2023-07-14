@@ -190,7 +190,7 @@ const User = () => {
           <h1> Bạn không có quyền truy cập</h1>
         )}
       </MainCard>
-      <Popup title={title} openPopup={openPopup} maxWidth={'md'}>
+      <Popup title={title} openPopup={openPopup} bgcolor={form === 'delete' ? '#F44336' : '#2196F3'}>
         {form === 'add' ? <Add /> : form === 'edit' ? <Edit /> : <Delete />}
       </Popup>
     </>

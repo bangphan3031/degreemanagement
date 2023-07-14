@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useFormik } from 'formik';
 import { useRoleValidationSchema } from '../../components/validations/roleValidation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,9 +7,10 @@ import { useEffect } from 'react';
 import { editRole } from 'services/roleService';
 import { showAlert, setOpenPopup, setReloadData } from 'store/actions';
 import { selectedRoleSelector } from 'store/selectors';
-import AnimateButton from 'components/extended/AnimateButton';
 import { useTranslation } from 'react-i18next';
 import InputForm from 'components/form/InputForm';
+import SaveButton from 'components/button/SaveButton';
+import ResetButton from 'components/button/ExitButton';
 
 const EditRole = () => {
 
@@ -51,24 +52,20 @@ const EditRole = () => {
     }
   }, [selectedRole]);
 
+  const handleCancelClick = () => {
+    dispatch(setOpenPopup(false));
+  }
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2} my={2}>
         <InputForm formik={formik} name='name' label={t('role.input.label.name')} type="text" isFirst />
-        <Grid item xs={12} container spacing={3} justifyContent="flex-end" my={2}>
+        <Grid item xs={12} container spacing={2} justifyContent="flex-end" mt={1}>
           <Grid item>
-            <AnimateButton>
-              <Button type="submit" variant="contained" color="primary">
-                {t('button.save')}
-              </Button>
-            </AnimateButton>
+            <SaveButton />
           </Grid>
           <Grid item>
-            <AnimateButton>
-              <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
-                {t('button.reset')}
-              </Button>
-            </AnimateButton>
+            <ResetButton handleClick={handleCancelClick}/>
           </Grid>
         </Grid>
       </Grid>

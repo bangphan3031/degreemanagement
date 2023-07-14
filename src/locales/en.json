@@ -35,6 +35,9 @@
     "button.delete": "Delete",
     "button.login": "Login",
     "button.logout": "Logout",
+    "button.yes": "Yes",
+    "button.no": "No",
+    "button.exit": "Exit",
 
     "form.delete.warning1": "Are you sure?",
     "form.delete.warning2": "Data will not be recoverable!",

@@ -186,7 +186,7 @@ const TestAPI = () => {
         }
        
       </MainCard>
-      <Popup title={title} openPopup={openPopup}>
+      <Popup title={title} openPopup={openPopup} bgcolor={form === 'delete' ? '#F44336' : '#2196F3'}>
         {form === 'add' ? <Add /> : form === 'edit' ? <Edit /> : <Delete />}
       </Popup>
     </>

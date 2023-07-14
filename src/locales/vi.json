@@ -35,6 +35,9 @@
     "button.delete": "Xóa",
     "button.login": "Đăng nhập",
     "button.logout": "Đăng xuất",
+    "button.yes": "Có",
+    "button.no": "Không",
+    "button.exit": "Thoát",
 
     "form.delete.warning1": "Bạn chắc chứ?",
     "form.delete.warning2": "Dữ liệu sẽ không thể khôi phục!",

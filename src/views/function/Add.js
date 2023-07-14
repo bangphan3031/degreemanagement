@@ -1,16 +1,14 @@
 import React from 'react';
-import { Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useFormik } from 'formik';
 import { createFunction } from 'services/functionService';
 import { setOpenPopup, showAlert, setReloadData } from 'store/actions';
 import { useDispatch } from 'react-redux';
 import { useFunctionValidationSchema } from 'components/validations/functionValidation';
-import AnimateButton from 'components/extended/AnimateButton';
 import InputForm from 'components/form/InputForm';
 import { useTranslation } from 'react-i18next';
-//import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
-
-// import { rolesSelector } from 'store/selectors';
+import SaveButton from 'components/button/SaveButton';
+import ExitButton from 'components/button/ExitButton';
 
 const AddFunction = () => {
   const dispatch = useDispatch();
@@ -40,25 +38,21 @@ const AddFunction = () => {
     }
   });
 
+  const handleCancelClick = () => {
+    dispatch(setOpenPopup(false));
+  }
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2} my={2}>
         <InputForm formik={formik} name='name' label={t('function.input.label.name')} type="text" isFirst />
         <InputForm formik={formik} name='description' label={t('function.input.label.description')} type="text" />
-        <Grid item xs={12} container spacing={3} justifyContent="flex-end" my={2}>
+        <Grid item xs={12} container spacing={2} justifyContent="flex-end" mt={1}>
           <Grid item>
-            <AnimateButton>
-              <Button type="submit" variant="contained" color="primary">
-                {t('button.save')}
-              </Button>
-            </AnimateButton>
+            <SaveButton />
           </Grid>
           <Grid item>
-            <AnimateButton>
-              <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
-                {t('button.reset')}
-              </Button>
-            </AnimateButton>
+            <ExitButton handleClick={handleCancelClick}/>
           </Grid>
         </Grid>
       </Grid>

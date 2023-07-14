@@ -13,7 +13,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 export default function Popup(props) {
   const { t } = useTranslation()
-  const { title, children, openPopup, maxWidth } = props;
+  const { title, children, openPopup, maxWidth, bgcolor } = props;
   const dispatch = useDispatch();
 
   const handleCloseClick = () => {
@@ -30,7 +30,7 @@ export default function Popup(props) {
         maxWidth={maxWidth || "sm"}
         style={{ mb: '10%' }}
       >
-        <DialogTitle bgcolor={'#2196F3'} display={'flex'}>
+        <DialogTitle bgcolor={bgcolor} display={'flex'}>
           <Grid container spacing={1} direction="row">
           <Grid item color={'#fff'} sx={{fontSize: '20px'}}>
             {title}

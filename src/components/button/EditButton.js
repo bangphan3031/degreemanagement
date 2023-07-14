@@ -1,15 +1,19 @@
 import React from 'react';
 import { Grid, Button, Tooltip } from '@mui/material';
 import AnimateButton from 'components/extended/AnimateButton';
+import { useTranslation } from 'react-i18next';
+import { IconCheck } from '@tabler/icons';
 
-const CustomButton = ({ handleClick, icon: Icon, title, label }) => {
+const EditButton = ({ handleClick }) => {
+  const { t } = useTranslation();
+
   return (
     <Grid container spacing={2} alignItems="center">
-      <Grid item xs={3}>
+      <Grid item xs={12}>
         <AnimateButton>
-          <Tooltip title={title} placement="bottom">
+          <Tooltip title={t('button.edit')} placement="bottom">
             <Button color="info" variant="outlined" size="medium" onClick={handleClick}>
-              {Icon && <Icon />} {label}
+                <IconCheck /> {t('button.edit')}
             </Button>
           </Tooltip>
         </AnimateButton>
@@ -18,4 +22,4 @@ const CustomButton = ({ handleClick, icon: Icon, title, label }) => {
   );
 };
 
-export default CustomButton;
+export default EditButton;

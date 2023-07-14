@@ -1,15 +1,16 @@
 import React from 'react';
-import { Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useFormik } from 'formik';
 import { useUserValidationSchema }  from '../../components/validations/userValidation';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { showAlert } from 'store/actions'; //setOpenPopup, setReloadData
 import { selectedUserSelector } from 'store/selectors';
-import AnimateButton from 'components/extended/AnimateButton';
 import InputForm from 'components/form/InputForm';
 import FormImage from 'components/form/ImageForm';
 import { useTranslation } from 'react-i18next';
+import SaveButton from 'components/button/SaveButton';
+import ExitButton from 'components/button/ExitButton';
 
 const EditUser = () => {
   const { t } = useTranslation();
@@ -45,6 +46,10 @@ const EditUser = () => {
     }
   });
 
+  const handleCancelClick = () => {
+    dispatch(setOpenPopup(false));
+  }
+
   useEffect(() => {
     if (selectedUser) {
       formik.setValues({
@@ -67,20 +72,12 @@ const EditUser = () => {
         <Grid item xs={5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <FormImage />
         </Grid>
-        <Grid item xs={12} container spacing={3} justifyContent="flex-end" my={2}>
+        <Grid item xs={12} container spacing={2} justifyContent="flex-end" mt={1}>
           <Grid item>
-            <AnimateButton>
-              <Button type="submit" variant="contained" color="primary">
-                {t('button.save')}
-              </Button>
-            </AnimateButton>
+            <SaveButton />
           </Grid>
           <Grid item>
-            <AnimateButton>
-              <Button type="button" variant="contained" color="primary" onClick={formik.resetForm}>
-                {t('button.reset')}
-              </Button>
-            </AnimateButton>
+            <ExitButton handleClick={handleCancelClick}/>
           </Grid>
         </Grid>
       </Grid>
