@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import config from '../../../../config';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -30,6 +31,7 @@ import User1 from 'assets/images/users/user-round.svg';
 // assets
 import { IconLogout, IconSettings, IconUser } from '@tabler/icons';
 import { useTranslation } from 'react-i18next';
+import { userLogin } from 'store/actions';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -38,6 +40,7 @@ const ProfileSection = () => {
   const customization = useSelector((state) => state.customization);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [open, setOpen] = useState(false);
@@ -51,6 +54,8 @@ const ProfileSection = () => {
     localStorage.removeItem('menu');
     navigate('/login');
   };
+
+  const [user, setUser] = useState({});
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -80,6 +85,12 @@ const ProfileSection = () => {
     prevOpen.current = open;
   }, [open]);
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    dispatch(userLogin(user));
+    setUser(user);
+  }, []);
+
   return (
     <>
       <Chip
@@ -104,7 +115,7 @@ const ProfileSection = () => {
         }}
         icon={
           <Avatar
-            src={User1}
+            src={user.avatar ? `${config.urlFile}Users/${user.avatar}` : User1}
             sx={{
               ...theme.typography.mediumAvatar,
               margin: '8px 0 8px 8px !important',
@@ -150,15 +161,15 @@ const ProfileSection = () => {
                   <Box sx={{ p: 2, pb: 0 }}>
                     <Stack>
                       <Stack direction="row" spacing={0.5} alignItems="center">
-                        <Typography variant="h4">{t("user.hello")}</Typography>
+                        <Typography variant="h4">{t('user.hello')}</Typography>
                         <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                          Johne Doe
+                          {user.fullname}
                         </Typography>
                       </Stack>
                     </Stack>
-                    <Divider sx={{ mt: 2 }}/>
+                    <Divider sx={{ mt: 2 }} />
                   </Box>
-                  <Box sx={{ m: 1 }}>                   
+                  <Box sx={{ m: 1 }}>
                     <List
                       component="nav"
                       sx={{
@@ -180,7 +191,7 @@ const ProfileSection = () => {
                         <ListItemIcon>
                           <IconSettings stroke={1.5} size="1.3rem" />
                         </ListItemIcon>
-                        <ListItemText primary={<Typography variant="body2">{t("user.changepass")}</Typography>} />
+                        <ListItemText primary={<Typography variant="body2">{t('user.changepass')}</Typography>} />
                       </ListItemButton>
                       <ListItemButton
                         sx={{ borderRadius: `${customization.borderRadius}px` }}
@@ -194,7 +205,7 @@ const ProfileSection = () => {
                           primary={
                             <Grid container spacing={1} justifyContent="space-between">
                               <Grid item>
-                                <Typography variant="body2">{t("user.profile")}</Typography>
+                                <Typography variant="body2">{t('user.profile')}</Typography>
                               </Grid>
                             </Grid>
                           }
@@ -208,7 +219,7 @@ const ProfileSection = () => {
                         <ListItemIcon>
                           <IconLogout stroke={1.5} size="1.3rem" />
                         </ListItemIcon>
-                        <ListItemText primary={<Typography variant="body2">{t("button.logout")}</Typography>} />
+                        <ListItemText primary={<Typography variant="body2">{t('button.logout')}</Typography>} />
                       </ListItemButton>
                     </List>
                   </Box>

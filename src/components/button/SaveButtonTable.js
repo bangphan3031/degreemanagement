@@ -2,18 +2,18 @@ import React from 'react';
 import { Grid, Button, Tooltip } from '@mui/material';
 import AnimateButton from 'components/extended/AnimateButton';
 import { useTranslation } from 'react-i18next';
-import { IconCheck } from '@tabler/icons';
+import { IconDeviceFloppy } from '@tabler/icons';
 
-const YesButton = ({ handleClick, color }) => {
+const SaveButtonTable = ({ onClick }) => {
   const { t } = useTranslation();
 
   return (
     <Grid container spacing={2} alignItems="center">
       <Grid item xs={12}>
         <AnimateButton>
-          <Tooltip title={t('button.yes')} placement="bottom">
-            <Button color={color || 'error'} variant="contained" size="medium" onClick={handleClick}>
-              <IconCheck /> {t('button.yes')}
+          <Tooltip title={t('button.save')} placement="bottom">
+            <Button color="info" variant="contained" size="medium" onClick={onClick}>
+              <IconDeviceFloppy /> {t('button.save')}
             </Button>
           </Tooltip>
         </AnimateButton>
@@ -22,4 +22,4 @@ const YesButton = ({ handleClick, color }) => {
   );
 };
 
-export default YesButton;
+export default SaveButtonTable;

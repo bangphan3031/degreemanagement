@@ -1,44 +1,57 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import { useFormik } from 'formik';
-import { useUserValidationSchema }  from '../../components/validations/userValidation';
+import { useUserValidationSchema } from '../../components/validations/userValidation';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { showAlert } from 'store/actions'; //setOpenPopup, setReloadData
-import { selectedUserSelector } from 'store/selectors';
+import { setOpenPopup, setReloadData, showAlert } from 'store/actions'; //setOpenPopup, setReloadData
+import { openPopupSelector, selectedUserSelector } from 'store/selectors';
 import InputForm from 'components/form/InputForm';
-import FormImage from 'components/form/ImageForm';
+import ImageForm from 'components/form/ImageForm';
 import { useTranslation } from 'react-i18next';
 import SaveButton from 'components/button/SaveButton';
 import ExitButton from 'components/button/ExitButton';
+import { useState } from 'react';
+import config from '../../config';
+import { updateUser } from 'services/userService';
+import { handleResponseStatus } from 'utils/handleResponseStatus';
+import { convertJsonToFormData } from 'utils/convertJsonToFormData';
+import { useNavigate } from 'react-router';
 
 const EditUser = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const userValidationSchema = useUserValidationSchema();
+  const userValidationSchema = useUserValidationSchema(true);
   const selectedUser = useSelector(selectedUserSelector);
+  const [urlImage, setUrlImage] = useState('');
+  const openPopup = useSelector(openPopupSelector);
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
       fullName: '',
       userName: '',
-      email: ''
+      email: '',
+      avatar: '',
+      fileImage: ''
     },
     validationSchema: userValidationSchema,
     onSubmit: async (values) => {
       try {
-        console.log(values);
-        // dispatch(setOpenPopup(false));
-        // const roleUpdated = await editRole({
-        //   ...values,
-        //   roleId: selectedRole.roleId
-        // });
-        // if (roleUpdated.isSuccess == false) {
-        //   dispatch(showAlert(new Date().getTime().toString(), 'error', roleUpdated.message.toString()));
-        // } else {
-        //   dispatch(setReloadData(true));
-        //   dispatch(showAlert(new Date().getTime().toString(), 'success', roleUpdated.message.toString()));
-        // }
+        const formData = await convertJsonToFormData(values);
+        const updatedUser = await updateUser(formData);
+        const check = handleResponseStatus(updatedUser, navigate);
+        if (!check) {
+          dispatch(showAlert(new Date().getTime().toString(), 'error', updatedUser.message.toString()));
+        } else {
+          if (updatedUser.isSuccess == false) {
+            dispatch(showAlert(new Date().getTime().toString(), 'error', updatedUser.message.toString()));
+          } else {
+            dispatch(showAlert(new Date().getTime().toString(), 'success', updatedUser.message.toString()));
+            dispatch(setOpenPopup(false));
+            dispatch(setReloadData(true));
+          }
+        }
       } catch (error) {
         console.error('Error updating role:', error);
         dispatch(showAlert(new Date().getTime().toString(), 'error', error.toString()));
@@ -47,15 +60,18 @@ const EditUser = () => {
   });
 
   useEffect(() => {
-    if (selectedUser) {
+    if (selectedUser && openPopup) {
       formik.setValues({
+        userId: selectedUser.userId || 0,
         fullName: selectedUser.fullName || '',
         userName: selectedUser.userName || '',
-        password: selectedUser.password || '',
-        email: selectedUser.email || ''
+        email: selectedUser.email || '',
+        avatar: selectedUser.avatar || '',
+        fileImage: ''
       });
+      setUrlImage(config.urlFile + 'Users/' + selectedUser.avatar);
     }
-  }, [selectedUser]);
+  }, [selectedUser, openPopup]);
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -66,7 +82,7 @@ const EditUser = () => {
           <InputForm formik={formik} name="email" label={t('user.input.label.email')} type="mail" />
         </Grid>
         <Grid item xs={5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <FormImage />
+          <ImageForm formik={formik} name="avatar" nameFile="fileImage" isImagePreview={openPopup} urlImage={urlImage} />
         </Grid>
         <Grid item xs={12} container spacing={2} justifyContent="flex-end" mt={1}>
           <Grid item>

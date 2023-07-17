@@ -6,6 +6,8 @@ const config = {
   fontFamily: `'Roboto', sans-serif`,
   borderRadius: 12,
   apiUrl: 'http://localhost:5203/api',
+  urlFile: 'http://localhost:5203/Resources/',
+
   secretKey: 'mytopsecretkeywithatleast32characterslong'
 };
 

@@ -3,17 +3,20 @@ import { Grid } from '@mui/material';
 import { useFormik } from 'formik';
 import { createFunction } from 'services/functionService';
 import { setOpenPopup, showAlert, setReloadData } from 'store/actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFunctionValidationSchema } from 'components/validations/functionValidation';
 import InputForm from 'components/form/InputForm';
 import { useTranslation } from 'react-i18next';
 import SaveButton from 'components/button/SaveButton';
 import ExitButton from 'components/button/ExitButton';
+import { openPopupSelector } from 'store/selectors';
+import { useEffect } from 'react';
 
 const AddFunction = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const functionValidationSchema = useFunctionValidationSchema()
+  const functionValidationSchema = useFunctionValidationSchema();
+  const openPopup = useSelector(openPopupSelector);
 
   const formik = useFormik({
     initialValues: {
@@ -38,11 +41,17 @@ const AddFunction = () => {
     }
   });
 
+  useEffect(() => {
+    if (openPopup) {
+      formik.resetForm();
+    }
+  }, [openPopup]);
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2} my={2}>
-        <InputForm formik={formik} name='name' label={t('function.input.label.name')} type="text" isFirst />
-        <InputForm formik={formik} name='description' label={t('function.input.label.description')} type="text" />
+        <InputForm formik={formik} name="name" label={t('function.input.label.name')} type="text" isFirst />
+        <InputForm formik={formik} name="description" label={t('function.input.label.description')} type="text" />
         <Grid item xs={12} container spacing={2} justifyContent="flex-end" mt={1}>
           <Grid item>
             <SaveButton />

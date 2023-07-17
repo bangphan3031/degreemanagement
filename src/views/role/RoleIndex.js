@@ -20,9 +20,9 @@ import i18n from 'i18n';
 
 const Roles = () => {
   const language = i18n.language;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const localeText = useLocalText()
+  const localeText = useLocalText();
   const openPopup = useSelector(openPopupSelector);
   const [title, setTitle] = useState('');
   const [form, setForm] = useState('');
@@ -45,7 +45,7 @@ const Roles = () => {
       headerName: t('serial'),
       width: 70,
       sortable: false,
-      filterable: false,
+      filterable: false
     },
     {
       field: 'name',
@@ -63,17 +63,17 @@ const Roles = () => {
           <ActionButtons type="edit" handleEdit={handleEditRole} params={params.row} />
           <ActionButtons type="delete" handleDelete={handleDeleteRole} params={params.row} />
         </>
-      ),      
-    },
+      )
+    }
   ];
 
   useEffect(() => {
     const fetchData = async () => {
       setPageState((old) => ({ ...old, isLoading: true }));
-      const params = await createSearchParams(pageState)
+      const params = await createSearchParams(pageState);
       const response = await getRoles(params);
       const check = await handleResponseStatus(response, navigate);
-      if(check) {
+      if (check) {
         const data = await response.data;
         const dataWithIds = data.map((row, index) => ({
           id: index + 1,
@@ -93,34 +93,31 @@ const Roles = () => {
       }
     };
     fetchData();
-  }, [pageState.search, pageState.order, pageState.orderDir ,pageState.startIndex, pageState.pageSize, reloadData]);
+  }, [pageState.search, pageState.order, pageState.orderDir, pageState.startIndex, pageState.pageSize, reloadData]);
 
   const handleAddRole = () => {
     setTitle(<> {t('role.title.add')} </>);
-    setForm('add')
+    setForm('add');
     dispatch(setOpenPopup(true));
   };
 
   const handleEditRole = (role) => {
     setTitle(<> {t('role.title.edit')} </>);
-    setForm('edit')
+    setForm('edit');
     dispatch(selectedRole(role));
     dispatch(setOpenPopup(true));
   };
 
   const handleDeleteRole = (role) => {
     setTitle(<> {t('role.title.delete')} </>);
-    setForm('delete')
+    setForm('delete');
     dispatch(selectedRole(role));
     dispatch(setOpenPopup(true));
   };
 
   return (
     <>
-      <MainCard
-        title={t('role.title')}
-        secondary={<AddButton handleClick={handleAddRole}/>}
-      >
+      <MainCard title={t('role.title')} secondary={<AddButton handleClick={handleAddRole} />}>
         {isAccess ? (
           <DataGrid
             autoHeight
@@ -137,23 +134,23 @@ const Roles = () => {
               setPageState((old) => ({ ...old, startIndex: newPage }));
             }}
             onPageSizeChange={(newPageSize) => {
-              setPageState((old) => ({ ...old, pageSize: newPageSize }))
+              setPageState((old) => ({ ...old, pageSize: newPageSize }));
             }}
             onSortModelChange={(newSortModel) => {
               const field = newSortModel[0]?.field;
               const sort = newSortModel[0]?.sort;
-              setPageState((old) => ({ ...old, order: field, orderDir: sort }))
+              setPageState((old) => ({ ...old, order: field, orderDir: sort }));
             }}
             onFilterModelChange={(newSearchModel) => {
               const value = newSearchModel.items[0]?.value;
-              setPageState((old) => ({ ...old, search: value }))
+              setPageState((old) => ({ ...old, search: value }));
             }}
             localeText={language === 'vi' ? localeText : null}
             disableSelectionOnClick={true}
           />
-          ) : (<h1>{t('not.allow.access')}</h1>)
-        }
-       
+        ) : (
+          <h1>{t('not.allow.access')}</h1>
+        )}
       </MainCard>
       <Popup title={title} openPopup={openPopup} bgcolor={form === 'delete' ? '#F44336' : '#2196F3'}>
         {form === 'add' ? <Add /> : form === 'edit' ? <Edit /> : <Delete />}

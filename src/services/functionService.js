@@ -1,8 +1,10 @@
 import { sendRequest } from 'utils/apiUtils';
+//import { axiosClient } from './axiosClient';
 
 export async function getFunctions(params) {
   try {
     const response = await sendRequest(`Function/GetAllByParams?${params}`, 'GET');
+    console.log(response);
     return response;
   } catch (error) {
     console.error('Error creating function:', error);

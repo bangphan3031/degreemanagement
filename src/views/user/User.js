@@ -2,14 +2,19 @@ import { DataGrid } from '@mui/x-data-grid';
 import { IconUserCheck, IconUserPlus } from '@tabler/icons';
 import MainCard from 'components/cards/MainCard';
 import { useNavigate } from 'react-router';
+import config from '../../config';
 
 import Popup from 'components/controls/popup';
 
-import {  setOpenPopup, setReloadData } from 'store/actions';
-import { openPopupSelector, reloadDataSelector } from 'store/selectors';
+import { selectedUser, setOpenPopup, setReloadData } from 'store/actions';
+import { openPopupSelector, reloadDataSelector, userLoginSelector } from 'store/selectors';
 import Add from '../user/Add';
 import Edit from '../user/Edit';
 import Delete from '../user/Delete';
+import DeActive from '../user/DeActive';
+import Active from '../user/Active';
+import PermissionsGroup from '../user/PermissionsGroup';
+
 import { getUsers } from 'services/userService';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,9 +31,11 @@ const User = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const localeText = useLocalText()
+  const localeText = useLocalText();
   const openPopup = useSelector(openPopupSelector);
+  const userLogin = useSelector(userLoginSelector);
   const [title, setTitle] = useState('');
+  const [urlFileImage, setUrlFileImage] = useState('');
   const [form, setForm] = useState('');
   const [isAccess, setIsAccess] = useState(true);
   const reloadData = useSelector(reloadDataSelector);
@@ -51,38 +58,71 @@ const User = () => {
       filterable: false
     },
     {
-      field: 'fullName',
-      headerName: t('user.field.fullname'),
-      flex: 1
+      field: 'image',
+      headerName: t('user.field.avatar'),
+      flex: 1,
+      editable: true,
+      justifyContent: 'center',
+      alignItems: 'center',
+      renderCell: (params) =>
+        params.row.avatar ? (
+          <img
+            src={`${urlFileImage}${params.row.avatar}`}
+            alt="avatar"
+            style={{
+              width: 45,
+              height: 45,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              cursor: 'pointer'
+            }}
+          />
+        ) : (
+          <></>
+        )
     },
     {
       field: 'userName',
       headerName: t('user.field.username'),
-      flex: 1
+      flex: 2
+    },
+    {
+      field: 'fullName',
+      headerName: t('user.field.fullname'),
+      flex: 2
     },
     {
       field: 'email',
       headerName: t('user.field.email'),
-      flex: 1
+      flex: 2
     },
     {
       field: 'actions',
       headerName: t('action'),
-      width: 160,
+      width: 300,
       sortable: false,
       filterable: false,
-      renderCell: (params) => ( 
-        <>
-          <ActionButtons type="edit" handleEdit={handleEditUser} params={params.row} />
-          <ActionButtons type="delete" handleDelete={handleDeleteUser} params={params.row} />
-        </>
-      )
+      renderCell: (params) =>
+        params.row.userName === userLogin.username ? (
+          <></>
+        ) : params.row.isActive ? (
+          <>
+            <ActionButtons type="add" handleAdd={handleAdd} title={t('user.title.permissionGroup')} params={params.row} />
+            <ActionButtons type="edit" handleEdit={handleEdit} params={params.row} />
+            <ActionButtons type="deActive" handleDeActive={handleDeActive} params={params.row} />
+            <ActionButtons type="delete" handleDelete={handleDelete} params={params.row} />
+          </>
+        ) : (
+          <ActionButtons type="active" handleActive={handleActive} params={params.row} />
+        )
     }
   ];
 
   useEffect(() => {
     const fetchData = async () => {
       setPageState((old) => ({ ...old, isLoading: true }));
+      setUrlFileImage(config.urlFile + 'Users/');
       const params = await createSearchParams(pageState);
       const response = await getUsers(params);
       const check = await handleResponseStatus(response, navigate);
@@ -115,7 +155,7 @@ const User = () => {
     setForm('add');
     dispatch(setOpenPopup(true));
   };
-  const handleEditUser = (user) => {
+  const handleEdit = (user) => {
     setTitle(
       <>
         <IconUserCheck /> {t('user.title.edit')}
@@ -126,19 +166,37 @@ const User = () => {
     dispatch(setOpenPopup(true));
   };
 
-  const handleDeleteUser = (role) => {
+  const handleDelete = (role) => {
     setTitle(<> {t('user.title.delete')} </>);
     setForm('delete');
-    dispatch(selectedRole(role));
+    dispatch(selectedUser(role));
+    dispatch(setOpenPopup(true));
+  };
+
+  const handleDeActive = (user) => {
+    setTitle(<> {t('user.title.deActive')} </>);
+    setForm('deActive');
+    dispatch(selectedUser(user));
+    dispatch(setOpenPopup(true));
+  };
+
+  const handleActive = (user) => {
+    setTitle(<> {t('user.title.active')} </>);
+    setForm('active');
+    dispatch(selectedUser(user));
+    dispatch(setOpenPopup(true));
+  };
+
+  const handleAdd = (user) => {
+    setTitle(<> {t('role.title')} </>);
+    setForm('group');
+    dispatch(selectedUser(user));
     dispatch(setOpenPopup(true));
   };
 
   return (
     <>
-      <MainCard
-        title={t('user.title')}
-        secondary={<AddButton handleClick={handleAddUser} />}
-      >
+      <MainCard title={t('user.title')} secondary={<AddButton handleClick={handleAddUser} />}>
         {isAccess ? (
           <DataGrid
             autoHeight
@@ -173,8 +231,25 @@ const User = () => {
           <h1>{t('not.allow.access')}</h1>
         )}
       </MainCard>
-      <Popup title={title} openPopup={openPopup} bgcolor={form === 'delete' ? '#F44336' : '#2196F3'}>
-        {form === 'add' ? <Add /> : form === 'edit' ? <Edit /> : <Delete />}
+      <Popup
+        title={title}
+        maxWidth={form === 'group' ? 'md' : 'sm'}
+        openPopup={openPopup}
+        bgcolor={form === 'delete' || form === 'deActive' ? '#F44336' : '#2196F3'}
+      >
+        {form === 'add' ? (
+          <Add />
+        ) : form === 'edit' ? (
+          <Edit />
+        ) : form === 'delete' ? (
+          <Delete />
+        ) : form === 'deActive' ? (
+          <DeActive />
+        ) : form === 'active' ? (
+          <Active />
+        ) : (
+          <PermissionsGroup />
+        )}
       </Popup>
     </>
   );

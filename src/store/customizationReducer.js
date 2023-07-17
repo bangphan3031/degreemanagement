@@ -23,7 +23,8 @@ export const initialState = {
   alertContent: '',
   reloadData: false,
   menu: [],
-  selectedLanguage: 'vi'
+  selectedLanguage: 'vi',
+  user: [1, 2, 3]
 };
 
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //
@@ -92,7 +93,7 @@ const customizationReducer = (state = initialState, action) => {
     }
     case actionTypes.DELETE_USER: {
       const userIdToDelete = action.userId;
-      const updatedUsers = state.users.filter(user => user.id !== userIdToDelete);
+      const updatedUsers = state.users.filter((user) => user.id !== userIdToDelete);
       return {
         ...state,
         users: updatedUsers
@@ -100,7 +101,7 @@ const customizationReducer = (state = initialState, action) => {
     }
     case actionTypes.DELETE_ROLE: {
       const roleIdToDelete = action.roleId;
-      const updatedRoles = state.roles.filter(role => role.roleId !== roleIdToDelete);
+      const updatedRoles = state.roles.filter((role) => role.roleId !== roleIdToDelete);
       return {
         ...state,
         roles: updatedRoles
@@ -142,18 +143,29 @@ const customizationReducer = (state = initialState, action) => {
         ...state,
         reloadData: action.reloadData
       };
+    case actionTypes.SELECTED_ACTION:
+      return {
+        ...state,
+        selectedAction: action.selectedAction
+      };
     case actionTypes.SHOW_ALERT:
       return {
         ...state,
         showAlert: true,
         alertId: action.payload.alertId,
         alertType: action.payload.alertType,
-        alertContent: action.payload.alertContent,
+        alertContent: action.payload.alertContent
       };
     case actionTypes.SET_MENU_CUSTOM:
       return {
         ...state,
         menu: action.menu
+      };
+
+    case actionTypes.USER_LOGIN:
+      return {
+        ...state,
+        user: action.user
       };
     // Default
     default:

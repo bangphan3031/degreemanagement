@@ -1,38 +1,30 @@
 import React from 'react';
-import { Grid } from '@mui/material'; 
+import { Grid } from '@mui/material';
 import { useFormik } from 'formik';
 import { createUser } from 'services/userService';
 import { setOpenPopup, showAlert, setReloadData } from 'store/actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useUserValidationSchema } from 'components/validations/userValidation';
 import { handleResponseStatus } from 'utils/handleResponseStatus';
 import { useNavigate } from 'react-router';
 import InputForm from 'components/form/InputForm';
-import FormImage from 'components/form/ImageForm';
-import MultiSelectForm from 'components/form/MultiSelectForm';
+import ImageForm from 'components/form/ImageForm';
 import ExitButton from 'components/button/ExitButton';
 
-import { getRoles } from 'services/roleService';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import SaveButton from 'components/button/SaveButton';
+import { openPopupSelector, userLoginSelector } from 'store/selectors';
+import { convertJsonToFormData } from 'utils/convertJsonToFormData';
 
 const AddUser = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const userValidationSchema = useUserValidationSchema();
-  const [roles, setRoles] = useState([]);
+  const userValidationSchema = useUserValidationSchema(false);
+  const openPopup = useSelector(openPopupSelector);
+  const userLogin = useSelector(userLoginSelector);
 
   const navigate = useNavigate();
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getRoles();
-
-      const rolesData = response.data.map((role) => ({ id: role.roleId, name: role.name }));
-      setRoles(rolesData);
-    };
-    fetchData();
-  }, [dispatch]);
 
   const formik = useFormik({
     initialValues: {
@@ -40,18 +32,15 @@ const AddUser = () => {
       userName: '',
       password: '',
       email: '',
-      roles: []
+      avatar: '',
+      fileImage: '',
+      createdBy: userLogin.username
     },
     validationSchema: userValidationSchema,
     onSubmit: async (values) => {
       try {
-        const roleIds = values.roles.map((role) => role.id);
-        values = {
-          ...values,
-          roleIds: `${roleIds.join(',')}`
-        };
-
-        const addedUser = await createUser(values);
+        const formData = await convertJsonToFormData(values);
+        const addedUser = await createUser(formData);
         const check = handleResponseStatus(addedUser, navigate);
         if (!check) {
           dispatch(showAlert(new Date().getTime().toString(), 'error', addedUser.message.toString()));
@@ -59,9 +48,9 @@ const AddUser = () => {
           if (addedUser.isSuccess == false) {
             dispatch(showAlert(new Date().getTime().toString(), 'error', addedUser.message.toString()));
           } else {
+            dispatch(showAlert(new Date().getTime().toString(), 'success', addedUser.message.toString()));
             dispatch(setOpenPopup(false));
             dispatch(setReloadData(true));
-            dispatch(showAlert(new Date().getTime().toString(), 'success', addedUser.message.toString()));
           }
         }
       } catch (error) {
@@ -70,7 +59,13 @@ const AddUser = () => {
       }
     }
   });
-  
+
+  useEffect(() => {
+    if (openPopup) {
+      formik.resetForm();
+    }
+  }, [openPopup]);
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={2} my={1}>
@@ -79,10 +74,9 @@ const AddUser = () => {
           <InputForm formik={formik} name="userName" label={t('user.input.label.username')} type="text" />
           <InputForm formik={formik} name="password" label={t('user.input.label.password')} type="password" />
           <InputForm formik={formik} name="email" label={t('user.input.label.email')} type="mail" />
-          <MultiSelectForm data={roles} name="roles" label={t('user.input.label.roles')} formik={formik} />
         </Grid>
         <Grid item xs={5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <FormImage />
+          <ImageForm formik={formik} name="avatar" nameFile="fileImage" isImagePreview={openPopup} />
         </Grid>
         <Grid item xs={12} container spacing={2} justifyContent="flex-end" mt={1}>
           <Grid item>

@@ -16,18 +16,17 @@ export default function Alert() {
       if (alertId !== prevAlertIdRef.current) {
         toast[alertType](alertContent, {
           position: 'top-right',
-          autoClose: 3000,
+          autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'light',
+          theme: 'light'
         });
       }
 
       prevAlertIdRef.current = alertId;
-
     }
   }, [showAlert, alertId, alertType, alertContent]);
 

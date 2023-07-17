@@ -3,16 +3,16 @@ import { Grid } from '@mui/material';
 import MuiTypography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconAlertCircle } from '@tabler/icons';
-import { setOpenPopup, setReloadData, showAlert } from 'store/actions';
+import { setOpenPopup, setReloadData, showAlert } from 'store/actions'; //setReloadData
 import { selectedUserSelector } from 'store/selectors';
 import { useTranslation } from 'react-i18next';
 import YesButton from 'components/button/YesButton';
 import NoButton from 'components/button/NoButton';
-import { deleteUser } from 'services/userService';
+import { deActiveUser } from 'services/userService';
 import { useNavigate } from 'react-router';
 import { handleResponseStatus } from 'utils/handleResponseStatus';
 
-const DeleteUser = () => {
+const DeActiveUser = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const selectedUser = useSelector(selectedUserSelector);
@@ -20,17 +20,17 @@ const DeleteUser = () => {
 
   const handleDeleteClick = async () => {
     try {
-      const userDelete = await deleteUser(selectedUser.userId);
-      const check = handleResponseStatus(userDelete, navigate);
+      const userDeActive = await deActiveUser(selectedUser.userId);
+      const check = handleResponseStatus(userDeActive, navigate);
       if (!check) {
-        dispatch(showAlert(new Date().getTime().toString(), 'error', addedUser.message.toString()));
+        dispatch(showAlert(new Date().getTime().toString(), 'error', userDeActive.message.toString()));
       } else {
-        if (userDelete.isSuccess == false) {
-          dispatch(showAlert(new Date().getTime().toString(), 'error', userDelete.message.toString()));
+        if (userDeActive.isSuccess == false) {
+          dispatch(showAlert(new Date().getTime().toString(), 'error', userDeActive.message.toString()));
         } else {
-          dispatch(setReloadData(true));
+          dispatch(showAlert(new Date().getTime().toString(), 'success', userDeActive.message.toString()));
           dispatch(setOpenPopup(false));
-          dispatch(showAlert(new Date().getTime().toString(), 'success', userDelete.message.toString()));
+          dispatch(setReloadData(true));
         }
       }
     } catch (error) {
@@ -43,10 +43,7 @@ const DeleteUser = () => {
     <div style={{ textAlign: 'center' }}>
       <IconAlertCircle size={100} color="red" />
       <MuiTypography variant="h4" gutterBottom m={2}>
-        {t('form.delete.warning1')}
-      </MuiTypography>
-      <MuiTypography variant="body1" gutterBottom>
-        {t('form.delete.warning2')}
+        {`${t('user.form.deActive')} [${selectedUser.userName}]?`}
       </MuiTypography>
       <Grid container spacing={1} direction="row" justifyContent="center" my={2}>
         <Grid item>
@@ -60,4 +57,4 @@ const DeleteUser = () => {
   );
 };
 
-export default DeleteUser;
+export default DeActiveUser;

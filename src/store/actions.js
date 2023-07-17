@@ -21,6 +21,9 @@ export const RELOAD_DATA = '@customization/RELOAD_DATA';
 export const SET_MENU_CUSTOM = '@customization/SET_MENU_CUSTOME';
 export const SELECTED_FUNCTION = '@customization/SELECTED_FUNCTION';
 export const SELECTED_LANGUAGE = '@customization/SELECTED_LANGUAGE';
+export const SELECTED_ACTION = '@customization/SELECTED_ACTION';
+export const USER_LOGIN = '@customization/USER_LOGIN';
+
 
 // actions.js
 export const setUsers = (data) => ({ type: SET_USERS, users: data });
@@ -37,12 +40,18 @@ export const setOpenPopup = (status) => ({ type: POPUP_OPEN, openPopup: status }
 export const setOpenSubPopup = (status) => ({ type: SUB_POPUP_OPEN, openSubPopup: status });
 export const setReloadData = (status) => ({ type: RELOAD_DATA, reloadData: status });
 export const selectedFunction = (functions) => ({ type: SELECTED_FUNCTION, selectedFunction: functions });
+export const selectedAction = (action) => ({ type: SELECTED_ACTION, selectedAction: action });
 export const setSelectedLanguage = (language) => ({ type: SELECTED_LANGUAGE, selectedLanguage: language });
 export const showAlert = (alertId, alertType, alertContent) => ({
-    type: SHOW_ALERT,
-    payload: { alertId, alertType, alertContent },
+  type: SHOW_ALERT,
+  payload: { alertId, alertType, alertContent }
 });
 export const setMenuCustom = (menu) => ({
-    type: SET_MENU_CUSTOM,
-    menu: menu
+  type: SET_MENU_CUSTOM,
+  menu: menu
+});
+
+export const userLogin = (user) => ({
+  type: USER_LOGIN,
+  user: user
 });

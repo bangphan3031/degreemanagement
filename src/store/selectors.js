@@ -12,4 +12,5 @@ export const alertContentSelector = (state) => state.customization.alertContent;
 export const menuSelector = (state) => state.customization.menu;
 export const selectedFunctionSelector = (state) => state.customization.selectedFunction;
 export const selectedLanguageSelector = (state) => state.customization.selectedLanguage;
-
+export const selectedActionSelector = (state) => state.customization.selectedAction;
+export const userLoginSelector = (state) => state.customization.user;
